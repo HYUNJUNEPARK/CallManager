@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.vm = CallsViewModel(application)
+        binding.calls = Calls(this)
+        binding.testNumber = "01012341234"
 
         checkPermissions()
     }

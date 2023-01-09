@@ -9,6 +9,14 @@
             name="vm"
             type="com.module.callex.CallsViewModel" />
 
+        <variable
+            name="calls"
+            type="com.module.callex.Calls" />
+
+        <variable
+            name="testNumber"
+            type="String" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,6 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Test Button 2"
+                android:onClick="@{()->calls.makeCall(testNumber)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

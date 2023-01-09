@@ -1,63 +1,52 @@
 package com.module.callex
 
+import android.Manifest
+import android.app.Activity
 import android.content.Context
-import android.net.Uri
-import android.provider.ContactsContract
-import android.util.Log
-import com.module.callex.model.ContactItem
-import com.module.callex.model.ContactList
+import android.content.Intent
+import androidx.core.app.ActivityCompat
+import androidx.core.content.PermissionChecker
+import androidx.core.net.toUri
 
-class Calls(context: Context) {
-    private val context = context
+class Calls(private val context: Context) {
+    companion object {
+        const val REQUEST_PERMISSION = 0
+    }
 
 //전화 관련 API
-    fun getAllCallLog() {
-
-    }
-
-    fun getIncomingCallLog() {
-
-    }
-
-    fun getOutgoingCallLog() {
-
-    }
-
-//연락처 관련 API
     /**
-     * 디바이스에 저장된 연락처를 가져온다.
+     * 앱에 통화 권한이 있다면 디폴트 앱에 파라미터로 번호를 전달
+     *
+     * @param phoneNumber
      */
-    fun getContacts(): ContactList? {
-        try {
-            val uri : Uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
+    fun makeCall(phoneNumber: String) {
+        if (PermissionChecker.checkSelfPermission(context,
+                Manifest.permission.CALL_PHONE) == PermissionChecker.PERMISSION_GRANTED
+        ) {
+            val uri = "tel:$phoneNumber".toUri()
 
-            val contactInfo = arrayOf(
-                ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
-                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-                ContactsContract.CommonDataKinds.Phone.NUMBER
-            )
-
-            val cursor = context.contentResolver.query(uri, contactInfo, null, null, null)
-
-            val contactList = ContactList()
-
-            while (cursor?.moveToNext() == true) {
-                val id = cursor.getString(0)
-                val name = cursor.getString(1)
-                val number = cursor.getString(2)
-
-                contactList.add(ContactItem(id, name, number))
-            }
-            cursor?.close()
-
-            return contactList
-        } catch (e: NullPointerException) {
-            //e.printStackTrace()
-        } catch (e: SecurityException) {
-            //e.printStackTrace()
-        } catch (e: Exception) {
-            //e.printStackTrace()
+            context.startActivity(Intent(Intent.ACTION_CALL, uri))
+        } else {
+            ActivityCompat.requestPermissions(
+                context as Activity,
+                arrayOf(Manifest.permission.CALL_PHONE),
+                REQUEST_PERMISSION)
         }
-        return null
+    }
+
+    fun makeVideoCall() {
+
+    }
+
+    fun receiveCall() {
+
+    }
+
+    fun denyCall() {
+
+    }
+
+    fun recordCall() {
+
     }
 }
