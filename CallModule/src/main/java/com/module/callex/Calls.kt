@@ -27,7 +27,7 @@ class Calls(context: Context) {
     /**
      * 디바이스에 저장된 연락처를 가져온다.
      */
-    fun getContacts() {
+    fun getContacts(): ContactList? {
         try {
             val uri : Uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
 
@@ -49,6 +49,8 @@ class Calls(context: Context) {
                 contactList.add(ContactItem(id, name, number))
             }
             cursor?.close()
+
+            return contactList
         } catch (e: NullPointerException) {
             //e.printStackTrace()
         } catch (e: SecurityException) {
@@ -56,5 +58,6 @@ class Calls(context: Context) {
         } catch (e: Exception) {
             //e.printStackTrace()
         }
+        return null
     }
 }
