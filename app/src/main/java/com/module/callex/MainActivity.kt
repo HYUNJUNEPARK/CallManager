@@ -13,13 +13,16 @@ import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import com.module.callex.databinding.ActivityMainBinding
 
+//[Android/통화 화면 바꾸기] 2. 기본 전화 앱 등록하기
+//https://raon-studio.tistory.com/13?category=1055922
+
+
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val permissionRequestCode = 999
     private val permissionsArray: Array<String> = arrayOf(
         Manifest.permission.READ_CONTACTS,
-        Manifest.permission.CALL_PHONE,
-        Manifest.permission.READ_PHONE_NUMBERS
+        Manifest.permission.CALL_PHONE
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,12 +33,16 @@ class MainActivity : AppCompatActivity() {
         binding.testNumber = "01012341234"
 
         checkPermissions()
+
+        binding.button3.setOnClickListener {
+            println("asdfasdf")
+        }
     }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.all { it ==  PackageManager.PERMISSION_GRANTED}) {

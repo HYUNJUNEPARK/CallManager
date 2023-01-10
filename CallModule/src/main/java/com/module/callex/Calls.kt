@@ -4,10 +4,17 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.telecom.TelecomManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker
 import androidx.core.net.toUri
 
+/**
+ *
+ * <uses-permission android:name="android.permission.READ_CONTACTS"/>
+ * <uses-permission android:name="android.permission.CALL_PHONE"/>
+ *
+ */
 class Calls(private val context: Context) {
     companion object {
         const val REQUEST_PERMISSION = 0
@@ -33,6 +40,18 @@ class Calls(private val context: Context) {
                 REQUEST_PERMISSION)
         }
     }
+
+//    /**
+//     *
+//     */
+//    fun offerReplacingDefaultDialer() {
+//
+//        if (context.getSystemService(TelecomManager::class.java).defaultDialerPackage != context.packageName) {
+//            Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER)
+//                .putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, packageName)
+//                .let(::startActivity)
+//        }
+//    }
 
     fun makeVideoCall() {
 
