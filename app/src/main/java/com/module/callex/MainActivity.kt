@@ -1,41 +1,45 @@
 package com.module.callex
 
-import android.Manifest
-import android.app.AlertDialog
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
-import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import com.module.callex.databinding.ActivityMainBinding
+import com.module.callex.util.Permission
 
 //[Android/통화 화면 바꾸기] 2. 기본 전화 앱 등록하기
 //https://raon-studio.tistory.com/13?category=1055922
 
-
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val permissionRequestCode = 999
-    private val permissionsArray: Array<String> = arrayOf(
-        Manifest.permission.READ_CONTACTS,
-        Manifest.permission.CALL_PHONE
-    )
+    private lateinit var permission: Permission
+    private lateinit var calls: Calls
+
+    //기본 전화 앱으로 변경 되었는지 결과를 확인하기 위한 ActivityResultLauncher
+    private val changeDefaultDialerResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (calls.isDefaultDialer) {
+                //기본 앱으로 설정되었을 때
+            } else {
+                //기본 앱으로 설정되지 않았을 때
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        permission = Permission(this)
+        calls = Calls(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.vm = CallsViewModel(application)
-        binding.calls = Calls(this)
+        binding.calls = calls
         binding.testNumber = "01012341234"
 
-        checkPermissions()
+        permission.checkPermissions()
 
         binding.button3.setOnClickListener {
-            println("asdfasdf")
+            val intent = calls.createDefaultDialerIntent()
+            changeDefaultDialerResultLauncher.launch(intent)
         }
     }
 
@@ -46,64 +50,9 @@ class MainActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.all { it ==  PackageManager.PERMISSION_GRANTED}) {
-            permissionGranted()
-        }
-        else {
-            permissionDenied()
-        }
-    }
-
-    /**
-     * 권한 요청이 필요한 시점에 호출해 사용한다.
-     *
-     * Build.VERSION_CODES.M 미만인 경우 권한 요청 코드 필요
-     */
-    private fun checkPermissions() {
-        //AOS M 버전 이상 권한 요청
-        val isAllPermissionGranted: Boolean = permissionsArray.all { permission ->
-            checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
-        }
-        if (isAllPermissionGranted) {
-            permissionGranted()
+            permission.permissionGranted()
         } else {
-            ActivityCompat.requestPermissions(
-                this,
-                permissionsArray,
-                permissionRequestCode
-            )
+            permission.permissionDenied()
         }
-    }
-
-    /**
-     * 모든 권한이 승인되었을 때 실행한다.
-     */
-    private fun permissionGranted() {
-        Toast.makeText(this, "모든 권한 승인 완료", Toast.LENGTH_SHORT).show()
-    }
-
-    /**
-     * 권한이 하나라도 거절되었을 때 실행한다.
-     */
-    private fun permissionDenied() {
-        AlertDialog.Builder(this)
-            .setTitle("권한 설정")
-            .setMessage("권한 거절로 인해 일부기능이 제한됩니다.")
-            .setPositiveButton("종료") { _, _ ->
-                this.finish()
-            }
-            .setNegativeButton("권한 설정하러 가기") { _, _ ->
-                applicationInfo()
-            }
-            .create()
-            .show()
-    }
-
-    /**
-     * 권한 설정을 호출한다.
-     */
-    private fun applicationInfo() {
-        val packageUri = Uri.parse("package:${this.packageName}")
-        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageUri)
-        this.startActivity(intent)
     }
 }
