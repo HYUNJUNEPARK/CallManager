@@ -15,7 +15,9 @@ class Permission(private val context: Context) {
     private val permissionRequestCode = 999
     private val permissionsArray: Array<String> = arrayOf(
         Manifest.permission.READ_CONTACTS,
-        Manifest.permission.CALL_PHONE
+        Manifest.permission.CALL_PHONE,
+        Manifest.permission.READ_CALL_LOG,
+        Manifest.permission.WRITE_CALL_LOG
     )
 
     /**
