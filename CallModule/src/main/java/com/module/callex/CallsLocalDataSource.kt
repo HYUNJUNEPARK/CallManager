@@ -31,15 +31,12 @@ class CallsLocalDataSource(private val context: Context) {
     fun getContacts(): ContactList? {
         try {
             val uri : Uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
-
             val contactInfo = arrayOf(
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
                 ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
                 ContactsContract.CommonDataKinds.Phone.NUMBER
             )
-
             val cursor = context.contentResolver.query(uri, contactInfo, null, null, null)
-
             val contactList = ContactList()
 
             while (cursor?.moveToNext() == true) {

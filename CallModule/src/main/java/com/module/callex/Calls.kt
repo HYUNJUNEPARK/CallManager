@@ -41,18 +41,6 @@ class Calls(private val context: Context) {
         }
     }
 
-//    /**
-//     *
-//     */
-//    fun offerReplacingDefaultDialer() {
-//
-//        if (context.getSystemService(TelecomManager::class.java).defaultDialerPackage != context.packageName) {
-//            Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER)
-//                .putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, packageName)
-//                .let(::startActivity)
-//        }
-//    }
-
     fun makeVideoCall() {
 
     }
