@@ -33,14 +33,9 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.vm = CallsViewModel(application)
         binding.calls = calls
+        binding.activity = this
         binding.testNumber = "01012341234"
-
         permission.checkPermissions()
-
-        binding.button3.setOnClickListener {
-            val intent = calls.createDefaultDialerIntent()
-            changeDefaultDialerResultLauncher.launch(intent)
-        }
     }
 
     override fun onRequestPermissionsResult(
@@ -54,5 +49,10 @@ class MainActivity : AppCompatActivity() {
         } else {
             permission.permissionDenied()
         }
+    }
+
+    fun changeDefaultDialer() {
+        val intent = calls.createDefaultDialerIntent()
+        changeDefaultDialerResultLauncher.launch(intent)
     }
 }
