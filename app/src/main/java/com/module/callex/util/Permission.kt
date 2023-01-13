@@ -66,10 +66,9 @@ class Permission(private val context: Context) {
     /**
      * 권한 설정을 호출한다.
      */
-    fun applicationInfo() {
+    private fun applicationInfo() {
         val packageUri = Uri.parse("package:${context.packageName}")
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageUri)
         context.startActivity(intent)
     }
-
 }
