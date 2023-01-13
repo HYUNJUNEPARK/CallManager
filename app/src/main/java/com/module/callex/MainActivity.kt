@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.module.callex.data.model.log.LogType
 import com.module.callex.databinding.ActivityMainBinding
 import com.module.callex.ui.CallBasic
 import com.module.callex.ui.CallBasicViewModel
@@ -35,6 +36,13 @@ class MainActivity : AppCompatActivity() {
         binding.activity = this
         binding.testNumber = "01012341234"
         permission.checkPermissions()
+
+
+        binding.button5.setOnClickListener {
+            CallBasicViewModel(application).getCallLog(LogType.INCOMING)
+        }
+
+
     }
 
     override fun onRequestPermissionsResult(

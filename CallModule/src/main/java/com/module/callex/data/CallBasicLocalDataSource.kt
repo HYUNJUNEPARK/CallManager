@@ -24,7 +24,6 @@ class CallBasicLocalDataSource(private val context: Context) {
             val typeIdx = cursor?.getColumnIndex(CallLog.Calls.TYPE)
             val dateIdx = cursor?.getColumnIndex(CallLog.Calls.DATE)
             val durationIdx = cursor?.getColumnIndex(CallLog.Calls.DURATION)
-
             val callLogList = CallLogList()
 
             while (cursor?.moveToNext() == true) {
