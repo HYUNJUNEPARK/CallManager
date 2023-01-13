@@ -1,4 +1,4 @@
-package com.module.callex
+package com.module.callex.ui
 
 import android.Manifest
 import android.app.Activity
@@ -19,7 +19,7 @@ import androidx.core.net.toUri
  * <uses-permission android:name="android.permission.CALL_PHONE"/>
  *
  */
-class Calls(private val context: Context) {
+class CallBasic(private val context: Context) {
     companion object {
         const val REQUEST_PERMISSION = 0
     }
