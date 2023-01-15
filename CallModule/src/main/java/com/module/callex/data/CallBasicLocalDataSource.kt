@@ -47,16 +47,34 @@ class CallBasicLocalDataSource(private val context: Context) {
         return null
     }
 
+    /**
+     * 디바이스의 특정 통화기록만 지운다.
+     */
     fun deleteCallLog() {
+        try {
 
+        } catch (e: NullPointerException) {
+
+        } catch (e: SecurityException) {
+
+        } catch (e: Exception) {
+
+        }
     }
 
-    fun getIncomingCallLog() {
+    /**
+     * 디바이스의 모든 통화기록을 지운다.
+     */
+    fun deleteAllCallLog() {
+        try {
 
-    }
+        } catch (e: NullPointerException) {
 
-    fun getOutgoingCallLog() {
+        } catch (e: SecurityException) {
 
+        } catch (e: Exception) {
+
+        }
     }
 
 //연락처 관련 API
@@ -96,7 +114,33 @@ class CallBasicLocalDataSource(private val context: Context) {
         return null
     }
 
+    /**
+     * 디바이스의 특정 연락처를 지운다.
+     */
     fun deleteContact() {
+        try {
 
+        } catch (e: NullPointerException) {
+
+        } catch (e: SecurityException) {
+
+        } catch (e: Exception) {
+
+        }
+    }
+
+    /**
+     * 디바이스의 모든 연락처를 지운다.
+     */
+    fun deleteAllContact() {
+        try {
+
+        } catch (e: NullPointerException) {
+
+        } catch (e: SecurityException) {
+
+        } catch (e: Exception) {
+
+        }
     }
 }
