@@ -35,14 +35,8 @@ class MainActivity : AppCompatActivity() {
         binding.calls = callBasic
         binding.activity = this
         binding.testNumber = "01012341234"
+        binding.logType = LogType.OUTGOING
         permission.checkPermissions()
-
-
-        binding.button5.setOnClickListener {
-            CallBasicViewModel(application).getCallLog(LogType.INCOMING)
-        }
-
-
     }
 
     override fun onRequestPermissionsResult(

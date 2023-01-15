@@ -66,17 +66,17 @@ class CallBasicViewModel(application: Application) : AndroidViewModel(applicatio
 
         if (type == LogType.INCOMING.type) {
             _incomingCallLogList.value = sortedCallLogList
-            println(incomingCallLogList)
+            println("incoming: ${incomingCallLogList.value}")
         }
 
         if (type == LogType.OUTGOING.type) {
             _outgoingCallLogList.value = sortedCallLogList
-            println(outgoingCallLogList)
+            println("outgoing: ${outgoingCallLogList.value}")
         }
 
         if (type == LogType.MISSED.type) {
             _missedCallLogList.value = sortedCallLogList
-            println(missedCallLogList)
+            println("missed: ${missedCallLogList.value}")
         }
 
         if (type == LogType.VOICEMAIL.type) {

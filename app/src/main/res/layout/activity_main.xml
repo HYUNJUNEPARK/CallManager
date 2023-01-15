@@ -21,6 +21,10 @@
             name="testNumber"
             type="String" />
 
+        <variable
+            name="logType"
+            type="com.module.callex.data.model.log.LogType" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -81,6 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Test Button 5"
+                android:onClick="@{()->vm.getCallLog(logType)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
