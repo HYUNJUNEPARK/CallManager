@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var permission: Permission
     private lateinit var callBasic: CallBasic
+    private lateinit var callBasicViewModel: CallBasicViewModel
 
     //기본 전화 앱으로 변경 되었는지 결과를 확인하기 위한 ActivityResultLauncher
     private val changeDefaultDialerResultLauncher =
@@ -28,14 +29,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         permission = Permission(this)
         callBasic = CallBasic(this)
+        callBasicViewModel = CallBasicViewModel(application)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.vm = CallBasicViewModel(application)
+        binding.vm = callBasicViewModel
         binding.calls = callBasic
         binding.activity = this
         binding.testNumber = "01012341234"
         binding.logType = LogType.OUTGOING
+
         permission.checkPermissions()
     }
 

@@ -1,6 +1,7 @@
 package com.module.callex.data
 
 import android.content.Context
+import android.database.sqlite.SQLiteException
 import android.net.Uri
 import android.provider.CallLog
 import android.provider.ContactsContract
@@ -18,64 +19,107 @@ class CallBasicLocalDataSource(private val context: Context) {
      */
     fun getAllCallLog(): CallLogList? {
         try {
-            val uri = CallLog.Calls.CONTENT_URI
-            val cursor = context.contentResolver.query(uri, null, null, null, null)
+            val cursor = context.contentResolver.query(
+                CallLog.Calls.CONTENT_URI,
+                null,
+                null,
+                null,
+                CallLog.Calls.DEFAULT_SORT_ORDER
+            )
+
+            val callLogList = CallLogList()
+
             val numberIdx = cursor?.getColumnIndex(CallLog.Calls.NUMBER)
             val typeIdx = cursor?.getColumnIndex(CallLog.Calls.TYPE)
             val dateIdx = cursor?.getColumnIndex(CallLog.Calls.DATE)
             val durationIdx = cursor?.getColumnIndex(CallLog.Calls.DURATION)
-            val callLogList = CallLogList()
+            val idIdx = cursor?.getColumnIndex(CallLog.Calls._ID)
 
             while (cursor?.moveToNext() == true) {
-                val number = cursor.getString(numberIdx!!)
-                val type = cursor.getString(typeIdx!!)
-                val date = cursor.getString(dateIdx!!)
-                val duration = cursor.getString(durationIdx!!)
-
-                callLogList.add(CallLogItem(number, type, date, duration))
+                callLogList.add(
+                    CallLogItem(
+                        id = cursor.getString(idIdx!!),
+                        number = cursor.getString(numberIdx!!),
+                        type = cursor.getString(typeIdx!!),
+                        date = cursor.getString(dateIdx!!),
+                        duration = cursor.getString(durationIdx!!))
+                    )
             }
+
             cursor?.close()
 
             return callLogList
+        } catch (e: SQLiteException) {
+            e.printStackTrace()
         } catch (e: NullPointerException) {
-
+            e.printStackTrace()
         } catch (e: SecurityException) {
-
+            e.printStackTrace()
         } catch (e: Exception) {
-
+            e.printStackTrace()
         }
         return null
     }
 
     /**
      * 디바이스의 특정 통화기록만 지운다.
+     *
+     * @param logId 지우려하는 통화기록 ID
      */
-    fun deleteCallLog() {
+    fun deleteCallLog(logId: String) {
         try {
+//            val cursor = context.contentResolver.query(
+//                CallLog.Calls.CONTENT_URI,
+//                null,
+//                null,
+//                null,
+//                CallLog.Calls.DEFAULT_SORT_ORDER
+//            )
+
+            //val idIdx = cursor?.getColumnIndex(CallLog.Calls._ID)
+
+            context.contentResolver.delete(
+                CallLog.Calls.CONTENT_URI,
+                CallLog.Calls._ID + " =" + logId,
+                null
+            )
+
+//            while (cursor?.moveToNext() == true) {
+//                val id = cursor.getString(idIdx!!)
+//                println("_ID = $id")
+//            }
 
         } catch (e: NullPointerException) {
-
+            e.printStackTrace()
         } catch (e: SecurityException) {
-
+            e.printStackTrace()
         } catch (e: Exception) {
-
+            e.printStackTrace()
         }
     }
 
     /**
      * 디바이스의 모든 통화기록을 지운다.
      */
-    fun deleteAllCallLog() {
+    fun deleteAllCallLog(): Boolean {
         try {
+            context.contentResolver.delete(
+                CallLog.Calls.CONTENT_URI,
+                null,
+                null
+            )
 
+            return true
         } catch (e: NullPointerException) {
-
+            e.printStackTrace()
         } catch (e: SecurityException) {
-
+            e.printStackTrace()
         } catch (e: Exception) {
-
+            e.printStackTrace()
         }
+        return false
     }
+
 
 //연락처 관련 API
     /**
@@ -105,11 +149,11 @@ class CallBasicLocalDataSource(private val context: Context) {
 
             return contactList
         } catch (e: NullPointerException) {
-
+            e.printStackTrace()
         } catch (e: SecurityException) {
-
+            e.printStackTrace()
         } catch (e: Exception) {
-
+            e.printStackTrace()
         }
         return null
     }
@@ -121,11 +165,11 @@ class CallBasicLocalDataSource(private val context: Context) {
         try {
 
         } catch (e: NullPointerException) {
-
+            e.printStackTrace()
         } catch (e: SecurityException) {
-
+            e.printStackTrace()
         } catch (e: Exception) {
-
+            e.printStackTrace()
         }
     }
 
@@ -136,11 +180,11 @@ class CallBasicLocalDataSource(private val context: Context) {
         try {
 
         } catch (e: NullPointerException) {
-
+            e.printStackTrace()
         } catch (e: SecurityException) {
-
+            e.printStackTrace()
         } catch (e: Exception) {
-
+            e.printStackTrace()
         }
     }
 }
