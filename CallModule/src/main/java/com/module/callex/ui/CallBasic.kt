@@ -13,12 +13,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker
 import androidx.core.net.toUri
 
-/**
- *
- * <uses-permission android:name="android.permission.READ_CONTACTS"/>
- * <uses-permission android:name="android.permission.CALL_PHONE"/>
- *
- */
 class CallBasic(private val context: Context) {
     companion object {
         const val REQUEST_PERMISSION = 0
@@ -87,15 +81,15 @@ class CallBasic(private val context: Context) {
         }
     }
 
-    fun makeVideoCall() {
-
-    }
-
     fun receiveCall() {
 
     }
 
     fun denyCall() {
+
+    }
+
+    fun makeVideoCall() {
 
     }
 

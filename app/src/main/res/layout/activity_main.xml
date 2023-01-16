@@ -25,10 +25,6 @@
             name="logType"
             type="com.module.callex.data.model.log.LogType" />
 
-        <variable
-            name="callLogList"
-            type="java.util.ArrayList" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,6 +42,12 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
+                <EditText
+                    android:id="@+id/editText"
+                    android:inputType="number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -62,7 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:onClick="@{()->calls.makeCall(testNumber)}"
+                    android:onClick="@{()->calls.makeCall(editText.getText().toString())}"
                     android:text="makeCall(testNumber)"
                     android:textAllCaps="false"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -128,6 +130,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:text=""
+                    android:onClick="@{()->vm.deleteCallLog()}"
                     android:textAllCaps="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

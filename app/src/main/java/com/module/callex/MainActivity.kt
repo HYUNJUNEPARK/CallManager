@@ -40,7 +40,6 @@ class MainActivity : AppCompatActivity() {
         binding.activity = this
 
         //테스트 파라미터
-        binding.testNumber = "01012341234"
         binding.logType = LogType.OUTGOING
         binding.callLogList = arrayListOf("999" , "998")
 
