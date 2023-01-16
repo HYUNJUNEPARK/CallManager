@@ -12,14 +12,10 @@ class CallService : InCallService() {
     //TODO SDK 31 이하일 때 처리
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCallAdded(call: Call) {
-
-
         val callState = call.details.state
         viewModel.call = call
         viewModel.callState.value = callState
-
         Log.d("testLog", "onCallAdded: $callState")
-
     }
 
     override fun onCallRemoved(call: Call) {
