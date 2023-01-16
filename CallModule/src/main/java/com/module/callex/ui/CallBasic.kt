@@ -13,12 +13,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker
 import androidx.core.net.toUri
 
-/**
- *
- * <uses-permission android:name="android.permission.READ_CONTACTS"/>
- * <uses-permission android:name="android.permission.CALL_PHONE"/>
- *
- */
 class CallBasic(private val context: Context) {
     companion object {
         const val REQUEST_PERMISSION = 0
@@ -47,13 +41,16 @@ class CallBasic(private val context: Context) {
                 null
             }
 
-        val intent = if (_isDefaultDialer) { //1.이미 기본 전화 앱으로 등록되어 있는 경우
+        val intent = if (_isDefaultDialer) {
+            //1.이미 기본 전화 앱으로 등록되어 있는 경우
             Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS)
-        } else { //2. 기본 전화 앱으로 등록되어 있지 않은 경우
-            //2.1 Q버전 이상에서 RoleManager 로 Intent 생성
+        } else {
+            //2. 기본 전화 앱으로 등록되어 있지 않은 경우
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                //2.1 Q버전 이상에서 RoleManager 로 Intent 생성
                 roleManager?.createRequestRoleIntent(RoleManager.ROLE_DIALER)
-            } else { //2.2 Q버전 미만에서 TelecomManager 에 정의된 문자열로 인텐트 생성
+            } else {
+                //2.2 Q버전 미만에서 TelecomManager 에 정의된 문자열로 인텐트 생성
                 Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER).apply {
                     putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME,
                         context.packageName)
@@ -84,15 +81,15 @@ class CallBasic(private val context: Context) {
         }
     }
 
-    fun makeVideoCall() {
-
-    }
-
     fun receiveCall() {
 
     }
 
     fun denyCall() {
+
+    }
+
+    fun makeVideoCall() {
 
     }
 
