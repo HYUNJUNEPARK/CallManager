@@ -38,10 +38,19 @@ class MainActivity : AppCompatActivity() {
         binding.vm = callBasicViewModel
         binding.calls = callBasic
         binding.activity = this
+
+        //테스트 파라미터
         binding.testNumber = "01012341234"
         binding.logType = LogType.OUTGOING
+        binding.callLogList = arrayListOf("999" , "998")
 
         permission.checkPermissions()
+
+        binding.button7.setOnClickListener {
+            val callLogList = ArrayList<String>()
+            callLogList.add("981")
+            callBasicViewModel.deleteCallLog(callLogList)
+        }
     }
 
     override fun onRequestPermissionsResult(

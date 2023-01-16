@@ -1,6 +1,7 @@
 package com.module.callex.ui
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -58,7 +59,7 @@ class CallBasicViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     /**
-     * 다비이스 모든 통화 기록을 가져온다.
+     * 다비이스 모든 콜로그를 가져온다.
      */
     fun getAllCallLog() {
         _callLogList.value = callBasicLocalDataSource.getAllCallLog()
@@ -66,7 +67,7 @@ class CallBasicViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     /**
-     * 통화 기록 중 원하는 타입의 기록만 가져온다.
+     * 콜로그 중 원하는 타입의 기록만 가져온다.
      */
     fun getCallLog(logType: LogType) {
         if(callLogList.value == null) {
@@ -117,15 +118,31 @@ class CallBasicViewModel(application: Application) : AndroidViewModel(applicatio
 
     /**
      * 모든 콜 로그를 삭제한다.
+     *
+     * 디바이스 로그 데이터가 완전히 삭제되면, 콜 로그 관련 LiveData 모두 초기화
      */
     fun deleteAllCallLog() {
-        //디바이스 로그 데이터가 완전히 삭제되면, 콜 로그 관련 LiveData 모두 초기화
         callBasicLocalDataSource.deleteAllCallLog().let { result ->
             if (result) {
                 _callLogList.value?.clear()
                 _incomingCallLogList.value?.clear()
                 _outgoingCallLogList.value?.clear()
                 _missedCallLogList.value?.clear()
+            }
+        }
+    }
+
+    /**
+     * 특정 콜 로그를 삭제한다.
+     *
+     * @param logIdList 지우려하는 콜로그 ID 리스트
+     *
+     * 디바이스 로그 데이터가 완전히 삭제되면,
+     */
+    fun deleteCallLog(logIdList: ArrayList<String>) {
+        callBasicLocalDataSource.deleteCallLog(logIdList).let { result ->
+            if (result) {
+                getAllCallLog()
             }
         }
     }

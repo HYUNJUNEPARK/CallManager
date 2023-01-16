@@ -1,7 +1,6 @@
 package com.module.callex.data
 
 import android.content.Context
-import android.database.sqlite.SQLiteException
 import android.net.Uri
 import android.provider.CallLog
 import android.provider.ContactsContract
@@ -13,7 +12,7 @@ import com.module.callex.data.model.log.CallLogList
 class CallBasicLocalDataSource(private val context: Context) {
 //전화 기록 관련 API
     /**
-     * 디바이스의 통화기록을 모두 가져온다.
+     * 디바이스의 콜로그를 모두 가져온다.
      *
      * @return ArrayList<CallLogItem?>
      */
@@ -28,7 +27,6 @@ class CallBasicLocalDataSource(private val context: Context) {
             )
 
             val callLogList = CallLogList()
-
             val numberIdx = cursor?.getColumnIndex(CallLog.Calls.NUMBER)
             val typeIdx = cursor?.getColumnIndex(CallLog.Calls.TYPE)
             val dateIdx = cursor?.getColumnIndex(CallLog.Calls.DATE)
@@ -45,12 +43,9 @@ class CallBasicLocalDataSource(private val context: Context) {
                         duration = cursor.getString(durationIdx!!))
                     )
             }
-
             cursor?.close()
 
             return callLogList
-        } catch (e: SQLiteException) {
-            e.printStackTrace()
         } catch (e: NullPointerException) {
             e.printStackTrace()
         } catch (e: SecurityException) {
@@ -62,33 +57,27 @@ class CallBasicLocalDataSource(private val context: Context) {
     }
 
     /**
-     * 디바이스의 특정 통화기록만 지운다.
+     * 디바이스의 특정 콜로그만 지운다.
      *
-     * @param logId 지우려하는 통화기록 ID
+     * @param logIdList 지우려하는 콜로그 ID 리스트
+     * @return 삭제 성공 시 true, 실패 시 false 반환
      */
-    fun deleteCallLog(logId: String) {
+    fun deleteCallLog(logIdList: ArrayList<String>): Boolean {
         try {
-//            val cursor = context.contentResolver.query(
-//                CallLog.Calls.CONTENT_URI,
-//                null,
-//                null,
-//                null,
-//                CallLog.Calls.DEFAULT_SORT_ORDER
-//            )
+            for (logId in logIdList) {
+                val queryString = CallLog.Calls._ID+"=" + "'" +  logId.toInt() + "'"
 
-            //val idIdx = cursor?.getColumnIndex(CallLog.Calls._ID)
-
-            context.contentResolver.delete(
-                CallLog.Calls.CONTENT_URI,
-                CallLog.Calls._ID + " =" + logId,
-                null
-            )
-
-//            while (cursor?.moveToNext() == true) {
-//                val id = cursor.getString(idIdx!!)
-//                println("_ID = $id")
-//            }
-
+                context.contentResolver.delete(
+                    CallLog.Calls.CONTENT_URI,
+                    queryString,
+                    null
+                )
+            }
+            return true
+        } catch (e: NumberFormatException) {
+            e.printStackTrace()
+        } catch (e: IndexOutOfBoundsException) {
+            e.printStackTrace()
         } catch (e: NullPointerException) {
             e.printStackTrace()
         } catch (e: SecurityException) {
@@ -96,10 +85,13 @@ class CallBasicLocalDataSource(private val context: Context) {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+        return false
     }
 
     /**
-     * 디바이스의 모든 통화기록을 지운다.
+     * 디바이스의 모든 콜로그를 지운다.
+     *
+     * @return 삭제 성공 시 true, 실패 시 false 반환
      */
     fun deleteAllCallLog(): Boolean {
         try {
@@ -108,7 +100,6 @@ class CallBasicLocalDataSource(private val context: Context) {
                 null,
                 null
             )
-
             return true
         } catch (e: NullPointerException) {
             e.printStackTrace()
@@ -142,7 +133,6 @@ class CallBasicLocalDataSource(private val context: Context) {
                 val id = cursor.getString(0)
                 val name = cursor.getString(1)
                 val number = cursor.getString(2)
-
                 contactList.add(ContactItem(id, name, number))
             }
             cursor?.close()
