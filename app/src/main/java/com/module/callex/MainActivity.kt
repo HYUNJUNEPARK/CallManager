@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         //테스트 파라미터
         binding.logType = LogType.OUTGOING
-        binding.callLogList = arrayListOf("999" , "998")
+        //binding.callLogList = arrayListOf("999" , "998")
 
         permission.checkPermissions()
 
