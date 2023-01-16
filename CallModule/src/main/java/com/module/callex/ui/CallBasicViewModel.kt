@@ -19,28 +19,28 @@ class CallBasicViewModel(application: Application) : AndroidViewModel(applicatio
     /**
      * 디바이스 연락처 데이터
      */
-    private val _contactList = MutableLiveData<ContactList>()
+    private var _contactList = MutableLiveData<ContactList>()
     val contactList: LiveData<ContactList>
         get() = _contactList
 
     /**
      * 모든 콜 로그 데이터
      */
-    private val _callLogList = MutableLiveData<CallLogList>()
+    private var _callLogList = MutableLiveData<CallLogList>()
     val callLogList: LiveData<CallLogList>
         get() = _callLogList
 
     /**
      * 수신 로그 데이터
      */
-    private val _incomingCallLogList = MutableLiveData<CallLogList>()
+    private var _incomingCallLogList = MutableLiveData<CallLogList>()
     val incomingCallLogList: LiveData<CallLogList>
         get() = _incomingCallLogList
 
     /**
      * 발신 로그 데이터
      */
-    private val _outgoingCallLogList = MutableLiveData<CallLogList>()
+    private var _outgoingCallLogList = MutableLiveData<CallLogList>()
     val outgoingCallLogList: LiveData<CallLogList>
         get() = _outgoingCallLogList
 

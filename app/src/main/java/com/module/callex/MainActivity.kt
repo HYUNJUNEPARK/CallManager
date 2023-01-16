@@ -2,11 +2,14 @@ package com.module.callex
 
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LifecycleOwner
 import com.module.callex.data.model.log.LogType
 import com.module.callex.databinding.ActivityMainBinding
+import com.module.callex.service.CallStateViewModel
 import com.module.callex.ui.CallBasic
 import com.module.callex.ui.CallBasicViewModel
 import com.module.callex.util.Permission
@@ -41,15 +44,24 @@ class MainActivity : AppCompatActivity() {
 
         //테스트 파라미터
         binding.logType = LogType.OUTGOING
-        //binding.callLogList = arrayListOf("999" , "998")
+
 
         permission.checkPermissions()
 
-        binding.button7.setOnClickListener {
-            val callLogList = ArrayList<String>()
-            callLogList.add("981")
-            callBasicViewModel.deleteCallLog(callLogList)
-        }
+
+//        //TODO check owner
+//        CallStateViewModel().uiCallState.observe(this) {
+//            Log.d("testLog", "onCreate: $it")
+//        }
+
+
+
+        //TODO TO XML by dataBinding
+//        binding.button7.setOnClickListener {
+//            val callLogList = ArrayList<String>()
+//            callLogList.add("981")
+//            callBasicViewModel.deleteCallLog(callLogList)
+//        }
     }
 
     override fun onRequestPermissionsResult(
