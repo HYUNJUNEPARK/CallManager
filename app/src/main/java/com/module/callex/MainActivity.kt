@@ -14,6 +14,7 @@ import com.module.callex.ui.CallLogViewModel
 import com.module.callex.ui.CallViewModel.Companion.uiCallState
 import com.module.callex.ui.ContactViewModel
 import com.module.callex.util.CallUtil
+import com.module.callex.util.CallUtil.Companion.TAG
 import com.module.callex.util.Permission
 
 class MainActivity : AppCompatActivity() {
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         //TODO check owner
         uiCallState.observe(this) { callState ->
-            Log.d("testLog", "$callState")
+            Log.d(TAG, "uiCallState.observe $callState")
 
             if (callState == Call.STATE_DIALING) {
                 val intent = Intent(this, CallActivity::class.java)
