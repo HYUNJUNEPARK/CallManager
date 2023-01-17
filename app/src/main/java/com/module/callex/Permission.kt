@@ -1,4 +1,4 @@
-package com.module.callex.util
+package com.module.callex
 
 import android.Manifest
 import android.app.Activity

@@ -16,6 +16,7 @@ import androidx.core.net.toUri
 class CallUtil(private val context: Context) {
     companion object {
         const val REQUEST_PERMISSION = 0
+        const val TAG = "testLog"
     }
 
     //현재 앱이 기본 전화앱으로 설정되어있는지 확인해준다.
