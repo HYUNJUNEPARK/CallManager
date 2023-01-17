@@ -7,7 +7,7 @@
 
         <variable
             name="activity"
-            type="com.module.callex.CallActivity" />
+            type="com.module.callex.ui.CallActivity" />
 
         <variable
             name="callViewModel"
@@ -21,7 +21,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".CallActivity">
+        tools:context=".ui.CallActivity">
 
         <TextView
             android:id="@+id/callStateTextView"

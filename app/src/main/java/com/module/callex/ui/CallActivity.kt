@@ -1,4 +1,4 @@
-package com.module.callex
+package com.module.callex.ui
 
 import android.os.Bundle
 import android.os.Handler
@@ -6,10 +6,10 @@ import android.telecom.Call
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.module.callex.R
 import com.module.callex.databinding.ActivityCallBinding
-import com.module.callex.ui.CallViewModel
 import com.module.callex.ui.CallViewModel.Companion.uiCallState
-import com.module.callex.util.CallModuleConst.CALL_INCOMING
+import com.module.callex.util.CallModuleConst.CALL_OUTGOING
 import com.module.callex.util.CallModuleConst.INTENT_KEY_CALL_STATE
 
 class CallActivity : AppCompatActivity() {
@@ -29,7 +29,7 @@ class CallActivity : AppCompatActivity() {
 
     private fun updateUi() {
         val intentValue = intent.getStringExtra(INTENT_KEY_CALL_STATE)
-        if (intentValue == CALL_INCOMING) {
+        if (intentValue == CALL_OUTGOING) {
             binding.answerButton.visibility = View.GONE
         }
     }
@@ -42,7 +42,7 @@ class CallActivity : AppCompatActivity() {
                 }
                 //전화 올 때
                 Call.STATE_RINGING -> {
-                    binding.callState = "2"
+                    binding.callState = "수신전화"
                 }
                 Call.STATE_HOLDING -> {
                     binding.callState = "STATE_HOLDING"

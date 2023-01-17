@@ -8,11 +8,11 @@ import androidx.lifecycle.ViewModel
 
 class CallViewModel: ViewModel() {
     companion object {
-        internal var callState = MutableLiveData<Int>() //콜 모듈에서만 접근 가능하도록 internal 추가
+        var callState = MutableLiveData<Int>() //콜 모듈에서만 접근 가능하도록 internal 추가
         val uiCallState: LiveData<Int>
             get() = callState
 
-        internal var call: Call? = null //콜 모듈에서만 접근 가능하도록 internal 추가
+        var call: Call? = null //콜 모듈에서만 접근 가능하도록 internal 추가
             set(value) {
                 field?.unregisterCallback(callback)
                 value?.let {

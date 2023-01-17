@@ -1,4 +1,4 @@
-package com.module.callex
+package com.module.callex.ui
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -7,15 +7,14 @@ import android.telecom.Call
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.module.callex.Permission
+import com.module.callex.R
 import com.module.callex.data.model.log.LogType
 import com.module.callex.databinding.ActivityMainBinding
-import com.module.callex.ui.CallLogViewModel
 import com.module.callex.ui.CallViewModel.Companion.uiCallState
-import com.module.callex.ui.ContactViewModel
-import com.module.callex.util.CallModuleConst.CALL_INCOMING
+import com.module.callex.util.CallModuleConst.CALL_OUTGOING
 import com.module.callex.util.CallModuleConst.INTENT_KEY_CALL_STATE
 import com.module.callex.util.CallUtil
-import com.module.callex.util.Permission
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -40,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             if (callState == Call.STATE_DIALING) {
                 val intent = Intent(this, CallActivity::class.java)
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    .putExtra(INTENT_KEY_CALL_STATE , CALL_INCOMING)
+                    .putExtra(INTENT_KEY_CALL_STATE , CALL_OUTGOING)
                 startActivity(intent)
             }
         }
