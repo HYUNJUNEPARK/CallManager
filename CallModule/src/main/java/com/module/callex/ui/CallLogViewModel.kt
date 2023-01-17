@@ -1,27 +1,15 @@
 package com.module.callex.ui
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.module.callex.data.CallBasicLocalDataSource
-import com.module.callex.data.CallCache
-import com.module.callex.data.model.contact.ContactItem
-import com.module.callex.data.model.contact.ContactList
-import com.module.callex.data.model.log.CallLogItem
+import com.module.callex.data.CallLocalDataSource
 import com.module.callex.data.model.log.CallLogList
 import com.module.callex.data.model.log.LogType
 
-class CallBasicViewModel(application: Application) : AndroidViewModel(application) {
-    private val callBasicLocalDataSource = CallBasicLocalDataSource(application)
-
-    /**
-     * 디바이스 연락처 데이터
-     */
-    private var _contactList = MutableLiveData<ContactList>()
-    val contactList: LiveData<ContactList>
-        get() = _contactList
+class CallLogViewModel(application: Application) : AndroidViewModel(application) {
+    private val callLocalDataSource = CallLocalDataSource(application)
 
     /**
      * 모든 콜 로그 데이터
@@ -52,18 +40,10 @@ class CallBasicViewModel(application: Application) : AndroidViewModel(applicatio
         get() = _missedCallLogList
 
     /**
-     * 디바이스 모든 연락처를 가져온다.
-     */
-    fun getContacts() {
-        _contactList.value = callBasicLocalDataSource.getContacts()
-        println("getContacts() contactList(LiveData) : ${contactList.value}")
-    }
-
-    /**
      * 다비이스 모든 콜로그를 가져온다.
      */
     fun getAllCallLog() {
-        _callLogList.value = callBasicLocalDataSource.getAllCallLog()
+        _callLogList.value = callLocalDataSource.getAllCallLog()
         println("getAllCallLog() callLogList(LiveData) : ${callLogList.value}")
     }
 
@@ -74,7 +54,6 @@ class CallBasicViewModel(application: Application) : AndroidViewModel(applicatio
         if(callLogList.value == null) {
             getAllCallLog()
         }
-
         val type = logType.type
         val sortedCallLogList = CallLogList()
 
@@ -85,16 +64,19 @@ class CallBasicViewModel(application: Application) : AndroidViewModel(applicatio
             }
         }
 
+        //수신 로그
         if (type == LogType.INCOMING.type) {
             _incomingCallLogList.value = sortedCallLogList
             println("incoming: ${incomingCallLogList.value}")
         }
 
+        //발신 로그
         if (type == LogType.OUTGOING.type) {
             _outgoingCallLogList.value = sortedCallLogList
             println("outgoing: ${outgoingCallLogList.value}")
         }
 
+        //부재중 로그
         if (type == LogType.MISSED.type) {
             _missedCallLogList.value = sortedCallLogList
             println("missed: ${missedCallLogList.value}")
@@ -123,7 +105,7 @@ class CallBasicViewModel(application: Application) : AndroidViewModel(applicatio
      * 디바이스 로그 데이터가 완전히 삭제되면, 콜 로그 관련 LiveData 모두 초기화
      */
     fun deleteAllCallLog() {
-        callBasicLocalDataSource.deleteAllCallLog().let { result ->
+        callLocalDataSource.deleteAllCallLog().let { result ->
             if (result) {
                 _callLogList.value?.clear()
                 _incomingCallLogList.value?.clear()
@@ -141,7 +123,7 @@ class CallBasicViewModel(application: Application) : AndroidViewModel(applicatio
      * 디바이스 로그 데이터가 완전히 삭제되면,
      */
     fun deleteCallLog(logIdList: ArrayList<String>) {
-        callBasicLocalDataSource.deleteCallLog(logIdList).let { result ->
+        callLocalDataSource.deleteCallLog(logIdList).let { result ->
             if (result) {
                 getAllCallLog()
             }

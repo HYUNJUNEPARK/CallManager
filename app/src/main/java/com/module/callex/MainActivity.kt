@@ -6,42 +6,30 @@ import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LifecycleOwner
 import com.module.callex.data.model.log.LogType
 import com.module.callex.databinding.ActivityMainBinding
-import com.module.callex.ui.CallStateViewModel.Companion.uiCallState
-import com.module.callex.ui.CallBasic
-import com.module.callex.ui.CallBasicViewModel
+import com.module.callex.ui.CallViewModel.Companion.uiCallState
+import com.module.callex.ui.CallLogViewModel
+import com.module.callex.ui.ContactViewModel
+import com.module.callex.util.CallUtil
 import com.module.callex.util.Permission
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var permission: Permission
-    private lateinit var callBasic: CallBasic
-    private lateinit var callBasicViewModel: CallBasicViewModel
-
-    //TODO TEST
-    //private lateinit var callStateViewModel: CallStateViewModel
-
-    //기본 전화 앱으로 변경 되었는지 결과를 확인하기 위한 ActivityResultLauncher
-    private val changeDefaultDialerResultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (callBasic.isDefaultDialer) {
-                //기본 앱으로 설정되었을 때
-            } else {
-                //기본 앱으로 설정되지 않았을 때
-            }
-        }
+    private lateinit var callUtil: CallUtil
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         permission = Permission(this)
-        callBasic = CallBasic(this)
-        callBasicViewModel = CallBasicViewModel(application)
+        callUtil = CallUtil(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.vm = callBasicViewModel
-        binding.calls = callBasic
-        binding.activity = this
+        binding.callLogViewModel = CallLogViewModel(application)
+        binding.contactViewModel = ContactViewModel(application)
+        binding.callUtil = callUtil
+        binding.main = this
 
         //테스트 파라미터
         binding.logType = LogType.OUTGOING
@@ -55,8 +43,6 @@ class MainActivity : AppCompatActivity() {
         uiCallState.observe(this) { callState ->
             Log.d("testLog", "callState observe: $callState")
         }
-
-
 
         //TODO TO XML by dataBinding
 //        binding.button7.setOnClickListener {
@@ -80,7 +66,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun changeDefaultDialer() {
-        val intent = callBasic.createDefaultDialerIntent()
+        val intent = callUtil.createDefaultDialerIntent()
         changeDefaultDialerResultLauncher.launch(intent)
     }
+
+    //기본 전화 앱으로 변경 되었는지 결과를 확인하기 위한 ActivityResultLauncher
+    private val changeDefaultDialerResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (callUtil.isDefaultDialer) {
+                //기본 앱으로 설정되었을 때
+            } else {
+                //기본 앱으로 설정되지 않았을 때
+            }
+        }
 }
