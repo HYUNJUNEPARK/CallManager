@@ -67,17 +67,15 @@ class CallUtil(private val context: Context) {
      * @param phoneNumber
      */
     fun makeCall(phoneNumber: String) {
-        if (PermissionChecker.checkSelfPermission(context,
-                Manifest.permission.CALL_PHONE) == PermissionChecker.PERMISSION_GRANTED
-        ) {
+        if (PermissionChecker.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PermissionChecker.PERMISSION_GRANTED) {
             val uri = "tel:$phoneNumber".toUri()
-
             context.startActivity(Intent(Intent.ACTION_CALL, uri))
         } else {
             ActivityCompat.requestPermissions(
                 context as Activity,
                 arrayOf(Manifest.permission.CALL_PHONE),
-                REQUEST_PERMISSION)
+                REQUEST_PERMISSION
+            )
         }
     }
 }
