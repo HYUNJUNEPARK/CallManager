@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.telecom.Call
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -13,8 +12,9 @@ import com.module.callex.databinding.ActivityMainBinding
 import com.module.callex.ui.CallLogViewModel
 import com.module.callex.ui.CallViewModel.Companion.uiCallState
 import com.module.callex.ui.ContactViewModel
+import com.module.callex.util.CallModuleConst.CALL_INCOMING
+import com.module.callex.util.CallModuleConst.INTENT_KEY_CALL_STATE
 import com.module.callex.util.CallUtil
-import com.module.callex.util.CallUtil.Companion.TAG
 import com.module.callex.util.Permission
 
 class MainActivity : AppCompatActivity() {
@@ -36,13 +36,11 @@ class MainActivity : AppCompatActivity() {
 
         permission.checkPermissions()
 
-        //TODO check owner
         uiCallState.observe(this) { callState ->
-            Log.d(TAG, "uiCallState.observe $callState")
-
             if (callState == Call.STATE_DIALING) {
                 val intent = Intent(this, CallActivity::class.java)
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    .putExtra(INTENT_KEY_CALL_STATE , CALL_INCOMING)
                 startActivity(intent)
             }
         }

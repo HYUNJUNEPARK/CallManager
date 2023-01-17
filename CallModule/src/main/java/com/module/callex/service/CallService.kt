@@ -9,8 +9,6 @@ import com.module.callex.ui.CallViewModel.Companion.callState
 import com.module.callex.util.CallUtil.Companion.TAG
 
 class CallService : InCallService() {
-    //private val callViewModel = CallViewModel()
-
     override fun onCallAdded(call: Call) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             Log.d(TAG, "onCallAdded $call")

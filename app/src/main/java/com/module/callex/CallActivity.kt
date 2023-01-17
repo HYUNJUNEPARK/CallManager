@@ -3,11 +3,14 @@ package com.module.callex
 import android.os.Bundle
 import android.os.Handler
 import android.telecom.Call
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.module.callex.databinding.ActivityCallBinding
 import com.module.callex.ui.CallViewModel
 import com.module.callex.ui.CallViewModel.Companion.uiCallState
+import com.module.callex.util.CallModuleConst.CALL_INCOMING
+import com.module.callex.util.CallModuleConst.INTENT_KEY_CALL_STATE
 
 class CallActivity : AppCompatActivity() {
     private lateinit var binding : ActivityCallBinding
@@ -20,7 +23,15 @@ class CallActivity : AppCompatActivity() {
         binding.activity = this
         handler = Handler() //TODO Instead, use an java.util.concurrent.Executor
 
+        updateUi()
         callStateObserver()
+    }
+
+    private fun updateUi() {
+        val intentValue = intent.getStringExtra(INTENT_KEY_CALL_STATE)
+        if (intentValue == CALL_INCOMING) {
+            binding.answerButton.visibility = View.GONE
+        }
     }
 
     private fun callStateObserver() {
