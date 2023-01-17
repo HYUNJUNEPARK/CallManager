@@ -13,7 +13,7 @@ class CallViewModel: ViewModel() {
             get() = callState
     }
 
-    //TODO 키워드 이해 필요 internal 추가 ?
+    //TODO 키워드 이해 필요. internal 추가 ?
     var call: Call? = null
         set(value) {
             field?.unregisterCallback(callback)
@@ -28,34 +28,6 @@ class CallViewModel: ViewModel() {
     private val callback = object : Call.Callback() {
         override fun onStateChanged(call: Call, newState: Int) {
             callState.value = newState
-
-            when (newState) {
-                Call.STATE_DIALING -> {
-                    Log.d("testLog", "1 Dialing: $newState")
-                }
-                //전화 올 때
-                Call.STATE_RINGING -> {
-                    Log.d("testLog", "2 Ringing: $newState")
-                }
-                Call.STATE_HOLDING -> {
-                    Log.d("testLog", "3 holding: $newState")
-                }
-                Call.STATE_ACTIVE -> {
-                    Log.d("testLog", "4 active: $newState")
-                }
-                Call.STATE_DISCONNECTED -> {
-                    Log.d("testLog", "7 disconnected: $newState")
-                }
-                Call.STATE_SELECT_PHONE_ACCOUNT -> {
-                    Log.d("testLog", "8 phone account: $newState")
-                }
-                Call.STATE_CONNECTING -> {
-                    Log.d("testLog", "9 connecting: $newState")
-                }
-                Call.STATE_DISCONNECTING -> {
-                    Log.d("testLog", "10 disconnecting: $newState")
-                }
-            }
         }
     }
 
