@@ -1,4 +1,4 @@
-package com.module.callex.ui
+package com.module.callex.util
 
 import android.Manifest
 import android.app.Activity
@@ -13,7 +13,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker
 import androidx.core.net.toUri
 
-class CallBasic(private val context: Context) {
+class CallUtil(private val context: Context) {
     companion object {
         const val REQUEST_PERMISSION = 0
     }
@@ -79,21 +79,5 @@ class CallBasic(private val context: Context) {
                 arrayOf(Manifest.permission.CALL_PHONE),
                 REQUEST_PERMISSION)
         }
-    }
-
-    fun receiveCall() {
-
-    }
-
-    fun denyCall() {
-
-    }
-
-    fun makeVideoCall() {
-
-    }
-
-    fun recordCall() {
-
     }
 }

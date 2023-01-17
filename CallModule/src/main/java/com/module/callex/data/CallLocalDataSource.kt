@@ -9,7 +9,7 @@ import com.module.callex.data.model.contact.ContactList
 import com.module.callex.data.model.log.CallLogItem
 import com.module.callex.data.model.log.CallLogList
 
-class CallBasicLocalDataSource(private val context: Context) {
+class CallLocalDataSource(private val context: Context) {
 //전화 기록 관련 API
     /**
      * 디바이스의 콜로그를 모두 가져온다.

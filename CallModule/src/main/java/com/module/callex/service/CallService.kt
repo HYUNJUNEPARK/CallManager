@@ -3,22 +3,22 @@ package com.module.callex.service
 import android.os.Build
 import android.telecom.Call
 import android.telecom.InCallService
-import android.util.Log
-import androidx.annotation.RequiresApi
+import com.module.callex.ui.CallViewModel
+import com.module.callex.ui.CallViewModel.Companion.callState
 
 class CallService : InCallService() {
-    private val viewModel = CallStateViewModel()
+    private val callViewModel = CallViewModel()
 
-    //TODO SDK 31 이하일 때 처리
-    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCallAdded(call: Call) {
-        val callState = call.details.state
-        viewModel.call = call
-        viewModel.callState.value = callState
-        Log.d("testLog", "onCallAdded: $callState")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            callViewModel.call = call
+            callState.value = call.details.state
+        } else {
+            //TODO SDK 31 이하
+        }
     }
 
     override fun onCallRemoved(call: Call) {
-        Log.d("testLog", "removed: $call")
+        callViewModel.call = null
     }
 }
