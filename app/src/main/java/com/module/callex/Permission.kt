@@ -18,7 +18,9 @@ class Permission(private val context: Context) {
         Manifest.permission.CALL_PHONE,
         Manifest.permission.READ_CALL_LOG,
         Manifest.permission.WRITE_CALL_LOG,
-        Manifest.permission.READ_PHONE_STATE
+        Manifest.permission.READ_PHONE_STATE,
+        Manifest.permission.READ_SMS,
+        Manifest.permission.READ_PHONE_NUMBERS
     )
 
     /**

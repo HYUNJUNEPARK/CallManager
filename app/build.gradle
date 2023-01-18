@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace 'com.module.callex'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.module.callex"
@@ -44,4 +44,5 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
     implementation project(':CallManager')
+    implementation project(':SimManager')
 }
