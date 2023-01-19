@@ -5,12 +5,11 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.telecom.Call
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.ex.simmanager.SimViewModel
+import com.ex.simmanager.ui.SimViewModel
 import com.module.callex.Permission
 import com.module.callex.R
 import com.module.callex.data.model.log.LogType

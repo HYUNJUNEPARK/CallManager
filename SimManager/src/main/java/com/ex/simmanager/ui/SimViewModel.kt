@@ -1,4 +1,4 @@
-package com.ex.simmanager
+package com.ex.simmanager.ui
 
 import android.Manifest
 import android.app.Application
@@ -10,10 +10,10 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.ex.simmanager.data.model.activated.ActivatedSimItem
-import com.ex.simmanager.data.model.activated.ActivatedSimList
-import com.ex.simmanager.data.model.sim.SimItem
-import com.ex.simmanager.data.model.sim.SimList
+import com.ex.simmanager.data.sim.ActivatedSimItem
+import com.ex.simmanager.data.sim.ActivatedSimList
+import com.ex.simmanager.data.sim.SimItem
+import com.ex.simmanager.data.sim.SimList
 import com.ex.simmanager.util.SimModuleConst.NOT_SERVICEABLE
 import com.ex.simmanager.util.SimModuleConst.RESTRICTED_ZONE_SERVICE
 
@@ -22,13 +22,13 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
     //private val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
     private val subscriptionManager = context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
 
-    //디바아스 모든 USIM && eSIM 리스트(eSIM 의 경우 사용자 설정에 따라서 데이터가 없을 수 있음)
+    //디바아스 모든 USIM, eSIM 리스트(eSIM 의 경우 사용자 설정에 따라서 데이터가 없을 수 있음)
     private var _allSIMList = MutableLiveData<SimList>()
     val allSIMList : LiveData<SimList>
         get() = _allSIMList
 
     //eSIM 디바이스 모델용
-    //eSIM을 지원하는 디바이스 모델의 경우 사용자가 USIM ON/OFF 를 설정할 수 있기 때문에 활성화된 USIM / eSIM 만 필터링할 필요가 있다.
+    //eSIM을 지원하는 디바이스 모델의 경우 사용자가 USIM ON/OFF 를 설정할 수 있기 때문에 활성화된 USIM, eSIM 만 필터링할 필요가 있다.
     private var _activatedSIMList = MutableLiveData<ActivatedSimList>()
     val activatedSIMList : LiveData<ActivatedSimList>
         get() = _activatedSIMList

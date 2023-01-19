@@ -1,3 +1,3 @@
-package com.ex.simmanager.data.model.activated
+package com.ex.simmanager.data.sim
 
 class ActivatedSimList : ArrayList<ActivatedSimItem>()

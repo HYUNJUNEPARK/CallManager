@@ -1,4 +1,4 @@
-package com.ex.simmanager.data.model.sim
+package com.ex.simmanager.data.sim
 
 /**
  * @param number phoneNumber
