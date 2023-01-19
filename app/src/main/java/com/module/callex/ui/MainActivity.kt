@@ -41,6 +41,9 @@ class MainActivity : AppCompatActivity() {
 
         permission.checkPermissions()
         callStateObserver()
+
+        //SimViewModel(application).uSimCheck()
+
     }
 
     override fun onRequestPermissionsResult(
