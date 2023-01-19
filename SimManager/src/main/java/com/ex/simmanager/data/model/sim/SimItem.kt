@@ -6,5 +6,6 @@ package com.ex.simmanager.data.model.sim
  */
 data class SimItem(
     val number : String,
-    val isEmbedded: Boolean
+    val isEmbedded: Boolean,
+    val carrierName: CharSequence
 )

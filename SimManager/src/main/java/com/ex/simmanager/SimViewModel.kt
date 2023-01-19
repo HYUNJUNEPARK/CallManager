@@ -12,6 +12,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ex.simmanager.data.model.activated.ActivatedSimItem
 import com.ex.simmanager.data.model.activated.ActivatedSimList
+import com.ex.simmanager.data.model.sim.SimItem
+import com.ex.simmanager.data.model.sim.SimList
 import com.ex.simmanager.util.SimModuleConst.NOT_SERVICEABLE
 import com.ex.simmanager.util.SimModuleConst.RESTRICTED_ZONE_SERVICE
 
@@ -21,21 +23,45 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
     private val subscriptionManager = context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
 
     //디바아스 모든 USIM && eSIM 리스트(eSIM 의 경우 사용자 설정에 따라서 데이터가 없을 수 있음)
-    private var _allActivatedSIMList = MutableLiveData<ActivatedSimList>()
-    val allActivatedSIMList : LiveData<ActivatedSimList>
-        get() = _allActivatedSIMList
+    private var _allSIMList = MutableLiveData<SimList>()
+    val allSIMList : LiveData<SimList>
+        get() = _allSIMList
 
+    //eSIM 디바이스 모델용
     //eSIM을 지원하는 디바이스 모델의 경우 사용자가 USIM ON/OFF 를 설정할 수 있기 때문에 활성화된 USIM / eSIM 만 필터링할 필요가 있다.
-    private var _activatedActivatedSIMList = MutableLiveData<ActivatedSimList>()
+    private var _activatedSIMList = MutableLiveData<ActivatedSimList>()
     val activatedSIMList : LiveData<ActivatedSimList>
-        get() = _activatedActivatedSIMList
+        get() = _activatedSIMList
 
 
     fun getAllSimList() {
         try {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+                val simList = SimList()
+                val activeSubscriptionInfoList = subscriptionManager.activeSubscriptionInfoList
 
-
-
+                for (sim in activeSubscriptionInfoList.iterator()) {
+                    //eSIM 지원 모델
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                        val simItem = SimItem(
+                            number = sim.number,
+                            isEmbedded = sim.isEmbedded,
+                            carrierName = sim.carrierName
+                        )
+                        simList.add(simItem)
+                    } else {
+                        //eSIM 없는 모델
+                        val simItem = SimItem(
+                            number = sim.number,
+                            isEmbedded = false,
+                            carrierName = sim.carrierName
+                        )
+                        simList.add(simItem)
+                    }
+                }
+                _allSIMList.value = simList
+            }
+            println("allSIMList(LiveData) : ${allSIMList.value}")
         } catch (e: SecurityException) {
             e.printStackTrace()
         } catch (e: NullPointerException) {
@@ -45,41 +71,28 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-
     /**
      * 활성화된 SIM 스트를 가져온다.
+     * eSIM 지원 디바이스에서 필요 시 사용한다.
      */
     fun getActivatedSimList() {
         try {
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
-                val activatedSimList = ActivatedSimList()
-                val activeSubscriptionInfoList = subscriptionManager.activeSubscriptionInfoList
-
-                for (sim in activeSubscriptionInfoList.iterator()) {
-                    //eSIM 지원 모델
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        //비활성화 된 USIM을 필터링한다.
-                        if (sim.carrierName != RESTRICTED_ZONE_SERVICE && sim.carrierName != NOT_SERVICEABLE) {
-                            val activatedSimItem = ActivatedSimItem(
-                                number = sim.number,
-                                isEmbedded = sim.isEmbedded
-                            )
-                            activatedSimList.add(activatedSimItem)
-                        }
-                    } else {
-                    //eSIM 없는 모델
-                        if (sim.carrierName.toString() != RESTRICTED_ZONE_SERVICE && sim.carrierName.toString() != NOT_SERVICEABLE) {
-                            val activatedSimItem = ActivatedSimItem(
-                                number = sim.number,
-                                isEmbedded = false
-                            )
-                            activatedSimList.add(activatedSimItem)
-                        }
-                    }
-                }
-                _allActivatedSIMList.value = activatedSimList
+            if (allSIMList.value == null) {
+                getAllSimList()
             }
-            println("simList(LiveData) : ${allActivatedSIMList.value}")
+            val activatedSimList = ActivatedSimList()
+
+            for (sim in allSIMList.value!!.iterator()) {
+                if (sim.carrierName != RESTRICTED_ZONE_SERVICE && sim.carrierName != NOT_SERVICEABLE) {
+                    val activatedSimItem = ActivatedSimItem(
+                        number = sim.number,
+                        isEmbedded = sim.isEmbedded
+                    )
+                    activatedSimList.add(activatedSimItem)
+                }
+            }
+            _activatedSIMList.value = activatedSimList
+            println("activatedSimList(LiveData) : ${activatedSIMList.value}")
         } catch (e: SecurityException) {
             e.printStackTrace()
         } catch (e: NullPointerException) {

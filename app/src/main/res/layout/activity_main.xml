@@ -167,13 +167,12 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:textAllCaps="false"
-                    android:text=""
-                    android:onClick="@{()->simViewModel.activatedSIMList()}"
+                    android:text="getAllSimList()"
+                    android:onClick="@{()->simViewModel.getAllSimList()}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
 
                 <Button
                     android:id="@+id/button9"
@@ -181,14 +180,13 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:textAllCaps="false"
-                    android:text=""
+                    android:text="getActivatedSimList()"
+                    android:onClick="@{()->simViewModel.getActivatedSimList()}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
