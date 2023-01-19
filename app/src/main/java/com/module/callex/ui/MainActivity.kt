@@ -2,11 +2,14 @@ package com.module.callex.ui
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.telecom.Call
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.ex.simmanager.ui.SimViewModel
 import com.module.callex.Permission
 import com.module.callex.R
 import com.module.callex.data.model.log.LogType
@@ -21,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var permission: Permission
     private lateinit var callUtil: CallUtil
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -29,20 +33,16 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.callLogViewModel = CallLogViewModel(application)
         binding.contactViewModel = ContactViewModel(application)
+        binding.simViewModel = SimViewModel(application)
         binding.callUtil = callUtil
         binding.main = this
         binding.logType = LogType.OUTGOING //테스트 파라미터
 
         permission.checkPermissions()
+        callStateObserver()
 
-        uiCallState.observe(this) { callState ->
-            if (callState == Call.STATE_DIALING) {
-                val intent = Intent(this, CallActivity::class.java)
-                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    .putExtra(INTENT_KEY_CALL_STATE , CALL_OUTGOING)
-                startActivity(intent)
-            }
-        }
+        //SimViewModel(application).uSimCheck()
+
     }
 
     override fun onRequestPermissionsResult(
@@ -72,4 +72,15 @@ class MainActivity : AppCompatActivity() {
                 //기본 앱으로 설정되지 않았을 때
             }
         }
+
+    private fun callStateObserver() {
+        uiCallState.observe(this) { callState ->
+            if (callState == Call.STATE_DIALING) {
+                val intent = Intent(this, CallActivity::class.java)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    .putExtra(INTENT_KEY_CALL_STATE , CALL_OUTGOING)
+                startActivity(intent)
+            }
+        }
+    }
 }
