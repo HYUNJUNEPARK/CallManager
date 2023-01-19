@@ -3,11 +3,9 @@ package com.module.callex.ui
 import android.os.Bundle
 import android.os.Handler
 import android.telecom.Call
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.ex.simmanager.UsimManager
 import com.module.callex.R
 import com.module.callex.databinding.ActivityCallBinding
 import com.module.callex.ui.CallViewModel.Companion.uiCallState

@@ -10,7 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.ex.simmanager.UsimManager
+import com.ex.simmanager.SimViewModel
 import com.module.callex.Permission
 import com.module.callex.R
 import com.module.callex.data.model.log.LogType
@@ -34,26 +34,13 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.callLogViewModel = CallLogViewModel(application)
         binding.contactViewModel = ContactViewModel(application)
+        binding.simViewModel = SimViewModel(application)
         binding.callUtil = callUtil
         binding.main = this
         binding.logType = LogType.OUTGOING //테스트 파라미터
 
         permission.checkPermissions()
         callStateObserver()
-
-//        UsimManager(this).isUsim().let {
-//            Log.d("testLog", "onCreate: $it")
-//        }
-
-         UsimManager(this).getUsimNumber()
-
-         UsimManager(this).getSubscriptionInfoList().let {
-             for(i in it!!.iterator()) {
-                 Log.d("testLog", "List: ${i.isEmbedded}")
-             }
-
-
-         }
     }
 
     override fun onRequestPermissionsResult(
