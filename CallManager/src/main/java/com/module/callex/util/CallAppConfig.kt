@@ -9,10 +9,6 @@ import android.telecom.TelecomManager
 import androidx.appcompat.app.AppCompatActivity
 
 class CallAppConfig(private val context: Context) {
-    companion object {
-        const val REQUEST_PERMISSION = 0
-    }
-
     //현재 앱이 기본 전화앱으로 설정되어있는지 확인해준다.
     val isDefaultDialer
         get() = _isDefaultDialer
@@ -22,9 +18,7 @@ class CallAppConfig(private val context: Context) {
 
     /**
      * 현재 앱을 기본으로 설정할 수 있는 Action 호출 Intent 를 반환한다.
-     *
      * 사용법 : Intent 를 호출할 Activity 에 ActivityResultLauncher 를 세팅한다.
-     *
      * @return Intent
      */
     fun createDefaultDialerIntent(): Intent? {

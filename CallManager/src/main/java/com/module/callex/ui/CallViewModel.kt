@@ -15,6 +15,7 @@ import androidx.lifecycle.MutableLiveData
 import com.module.callex.util.CallModuleConst.CALL_OUTGOING
 import com.module.callex.util.CallModuleConst.INTENT_KEY_CALL_STATE
 import com.module.callex.util.CallAppConfig
+import com.module.callex.util.CallModuleConst.REQUEST_PERMISSION
 
 class CallViewModel(application: Application): AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
@@ -24,12 +25,12 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
         val uiCallState: LiveData<Int>
             get() = callState
 
+        //TODO 코드 이해 필요
         var call: Call? = null
             set(value) {
                 field?.unregisterCallback(callback)
                 value?.let {
                     it.registerCallback(callback)
-                    //state.onNext(it.state)
                 }
                 field = value
             }
@@ -43,7 +44,6 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
 
     /**
      * 앱에 통화 권한이 있다면 디폴트 앱에 파라미터로 번호를 전달
-     *
      * @param phoneNumber
      */
     fun makeCall(phoneNumber: String) {
@@ -57,7 +57,7 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
             ActivityCompat.requestPermissions(
                 context as Activity,
                 arrayOf(Manifest.permission.CALL_PHONE),
-                CallAppConfig.REQUEST_PERMISSION
+                REQUEST_PERMISSION
             )
         }
     }
