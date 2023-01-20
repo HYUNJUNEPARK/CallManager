@@ -1,5 +1,6 @@
 CallManager 1.0.0
 -CallUtil 클래스 -> CallAppConfig 클래스 rename
+-CallModuleConst -> CallManagerConst rename
 
 SimManager 1.0.0
 -

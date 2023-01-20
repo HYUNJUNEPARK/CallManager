@@ -12,10 +12,9 @@ import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.module.callex.util.CallModuleConst.CALL_OUTGOING
-import com.module.callex.util.CallModuleConst.INTENT_KEY_CALL_STATE
-import com.module.callex.util.CallAppConfig
-import com.module.callex.util.CallModuleConst.REQUEST_PERMISSION
+import com.module.callex.util.CallManagerConst.CALL_OUTGOING
+import com.module.callex.util.CallManagerConst.INTENT_KEY_CALL_STATE
+import com.module.callex.util.CallManagerConst.REQUEST_PERMISSION
 
 class CallViewModel(application: Application): AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext

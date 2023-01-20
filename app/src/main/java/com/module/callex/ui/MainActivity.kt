@@ -15,8 +15,8 @@ import com.module.callex.R
 import com.module.callex.data.model.log.LogType
 import com.module.callex.databinding.ActivityMainBinding
 import com.module.callex.ui.CallViewModel.Companion.uiCallState
-import com.module.callex.util.CallModuleConst.CALL_OUTGOING
-import com.module.callex.util.CallModuleConst.INTENT_KEY_CALL_STATE
+import com.module.callex.util.CallManagerConst.CALL_OUTGOING
+import com.module.callex.util.CallManagerConst.INTENT_KEY_CALL_STATE
 import com.module.callex.util.CallAppConfig
 
 class MainActivity : AppCompatActivity() {
