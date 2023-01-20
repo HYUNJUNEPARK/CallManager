@@ -1,10 +1,16 @@
 package com.module.callex.ui
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.telecom.Call
+import android.telecom.PhoneAccountHandle
+import android.telecom.TelecomManager
 import android.telecom.VideoProfile
 import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker
@@ -12,25 +18,24 @@ import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.module.callex.util.CallModuleConst.CALL_OUTGOING
-import com.module.callex.util.CallModuleConst.INTENT_KEY_CALL_STATE
-import com.module.callex.util.CallUtil
+import com.module.callex.util.CallManagerConst.CALL_OUTGOING
+import com.module.callex.util.CallManagerConst.INTENT_KEY_CALL_STATE
+import com.module.callex.util.CallManagerConst.REQUEST_PERMISSION
 
 class CallViewModel(application: Application): AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
 
     companion object {
-        var callState = MutableLiveData<Int>() //콜 모듈에서만 접근 가능하도록 internal 추가
+        var callState = MutableLiveData<Int>()
         val uiCallState: LiveData<Int>
             get() = callState
 
-        var call: Call? = null //콜 모듈에서만 접근 가능하도록 internal 추가
+        //TODO 코드 이해 필요
+        var call: Call? = null
             set(value) {
                 field?.unregisterCallback(callback)
                 value?.let {
                     it.registerCallback(callback)
-                    //state.onNext(it.state)
                 }
                 field = value
             }
@@ -44,7 +49,6 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
 
     /**
      * 앱에 통화 권한이 있다면 디폴트 앱에 파라미터로 번호를 전달
-     *
      * @param phoneNumber
      */
     fun makeCall(phoneNumber: String) {
@@ -58,7 +62,7 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
             ActivityCompat.requestPermissions(
                 context as Activity,
                 arrayOf(Manifest.permission.CALL_PHONE),
-                CallUtil.REQUEST_PERMISSION
+                REQUEST_PERMISSION
             )
         }
     }

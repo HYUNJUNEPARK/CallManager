@@ -5,40 +5,46 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.telecom.Call
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.ex.simmanager.ui.SimViewModel
-import com.module.callex.util.Permission
 import com.module.callex.R
 import com.module.callex.data.model.log.LogType
 import com.module.callex.databinding.ActivityMainBinding
 import com.module.callex.ui.CallViewModel.Companion.uiCallState
-import com.module.callex.util.CallModuleConst.CALL_OUTGOING
-import com.module.callex.util.CallModuleConst.INTENT_KEY_CALL_STATE
-import com.module.callex.util.CallUtil
+import com.module.callex.util.CallAppConfig
+import com.module.callex.util.CallManagerConst.CALL_OUTGOING
+import com.module.callex.util.CallManagerConst.INTENT_KEY_CALL_STATE
+import com.module.callex.util.Permission
+import com.module.callex.util.esim.ESimCallManager
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var permission: Permission
-    private lateinit var callUtil: CallUtil
+    private lateinit var callAppConfig: CallAppConfig
+    private lateinit var simViewModel: SimViewModel
 
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         permission = Permission(this)
-        callUtil = CallUtil(this)
+        callAppConfig = CallAppConfig(this)
+        simViewModel = SimViewModel(application)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.callLogViewModel = CallLogViewModel(application)
         binding.contactViewModel = ContactViewModel(application)
         binding.callViewModel = CallViewModel(application)
-        binding.simViewModel = SimViewModel(application)
-        binding.callUtil = callUtil
+        binding.simViewModel = simViewModel
+        binding.eSimCallManager = ESimCallManager(application)
+        binding.callUtil = callAppConfig
         binding.main = this
         binding.logType = LogType.OUTGOING //테스트 파라미터
 
+        updateUI()
         permission.checkPermissions()
         callStateObserver()
     }
@@ -57,14 +63,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun changeDefaultDialer() {
-        val intent = callUtil.createDefaultDialerIntent()
+        val intent = callAppConfig.createDefaultDialerIntent()
         changeDefaultDialerResultLauncher.launch(intent)
     }
 
     //기본 전화 앱으로 변경 되었는지 결과를 확인하기 위한 ActivityResultLauncher
     private val changeDefaultDialerResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (callUtil.isDefaultDialer) {
+            if (callAppConfig.isDefaultDialer) {
                 //기본 앱으로 설정되었을 때
             } else {
                 //기본 앱으로 설정되지 않았을 때
@@ -80,5 +86,25 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+    }
+
+    private fun updateUI() {
+        simViewModel.getActivatedSimList()
+        val simList = simViewModel.activatedSIMList.value
+
+        val simTypeSet = mutableSetOf<Boolean?>()
+        for (i in simList!!.iterator()) {
+            simTypeSet.add(i?.isEmbedded)
+        }
+
+        //TODO dataBinding 사용
+        if (simTypeSet.contains(true)) {
+            binding.esimCallButton.isEnabled = true
+        }
+
+        if (simTypeSet.contains(false)) {
+            binding.usimCallButton.isEnabled = true
+        }
+
     }
 }

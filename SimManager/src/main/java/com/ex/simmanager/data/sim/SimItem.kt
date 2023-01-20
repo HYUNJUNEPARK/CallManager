@@ -5,7 +5,8 @@ package com.ex.simmanager.data.sim
  * @param simType USIM : 0 / eSIM : 1
  */
 data class SimItem(
-    val number : String,
-    val isEmbedded: Boolean,
-    val carrierName: CharSequence
+    val number : String?,
+    val isEmbedded: Boolean?,
+    val carrierName: CharSequence?,
+    val simSlotIndex: Int?
 )

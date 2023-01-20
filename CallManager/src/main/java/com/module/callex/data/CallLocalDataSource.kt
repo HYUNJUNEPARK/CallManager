@@ -9,11 +9,11 @@ import com.module.callex.data.model.contact.ContactList
 import com.module.callex.data.model.log.CallLogItem
 import com.module.callex.data.model.log.CallLogList
 
+//TODO 개발 진행에 따라 로그 데이터소스와 연락처 데이터 소스를 분리해야할 수도 있음
 class CallLocalDataSource(private val context: Context) {
 //전화 기록 관련 API
     /**
      * 디바이스의 콜로그를 모두 가져온다.
-     *
      * @return ArrayList<CallLogItem?>
      */
     fun getAllCallLog(): CallLogList? {
@@ -58,7 +58,6 @@ class CallLocalDataSource(private val context: Context) {
 
     /**
      * 디바이스의 특정 콜로그만 지운다.
-     *
      * @param logIdList 지우려하는 콜로그 ID 리스트
      * @return 삭제 성공 시 true, 실패 시 false 반환
      */
@@ -90,7 +89,6 @@ class CallLocalDataSource(private val context: Context) {
 
     /**
      * 디바이스의 모든 콜로그를 지운다.
-     *
      * @return 삭제 성공 시 true, 실패 시 false 반환
      */
     fun deleteAllCallLog(): Boolean {
@@ -115,7 +113,6 @@ class CallLocalDataSource(private val context: Context) {
 //연락처 관련 API
     /**
      * 디바이스에 저장된 연락처를 가져온다.
-     *
      * @return ArrayList<ContactItem?>
      */
     fun getContacts(): ContactList? {

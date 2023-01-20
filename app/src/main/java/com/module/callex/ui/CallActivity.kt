@@ -10,8 +10,8 @@ import androidx.databinding.DataBindingUtil
 import com.module.callex.R
 import com.module.callex.databinding.ActivityCallBinding
 import com.module.callex.ui.CallViewModel.Companion.uiCallState
-import com.module.callex.util.CallModuleConst.CALL_OUTGOING
-import com.module.callex.util.CallModuleConst.INTENT_KEY_CALL_STATE
+import com.module.callex.util.CallManagerConst.CALL_OUTGOING
+import com.module.callex.util.CallManagerConst.INTENT_KEY_CALL_STATE
 
 class CallActivity : AppCompatActivity() {
     private lateinit var binding : ActivityCallBinding

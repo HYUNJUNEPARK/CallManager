@@ -101,7 +101,6 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
 
     /**
      * 모든 콜 로그를 삭제한다.
-     *
      * 디바이스 로그 데이터가 완전히 삭제되면, 콜 로그 관련 LiveData 모두 초기화
      */
     fun deleteAllCallLog() {
@@ -117,10 +116,8 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
 
     /**
      * 특정 콜 로그를 삭제한다.
-     *
      * @param logIdList 지우려하는 콜로그 ID 리스트
-     *
-     * 디바이스 로그 데이터가 완전히 삭제되면,
+     * 디바이스 로그 데이터가 완전히 삭제되면, callLogList 를 초기화
      */
     fun deleteCallLog(logIdList: ArrayList<String>) {
         callLocalDataSource.deleteCallLog(logIdList).let { result ->
