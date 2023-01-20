@@ -12,20 +12,19 @@ import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.module.callex.util.CallModuleConst.CALL_OUTGOING
 import com.module.callex.util.CallModuleConst.INTENT_KEY_CALL_STATE
-import com.module.callex.util.CallUtil
+import com.module.callex.util.CallAppConfig
 
 class CallViewModel(application: Application): AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
 
     companion object {
-        var callState = MutableLiveData<Int>() //콜 모듈에서만 접근 가능하도록 internal 추가
+        var callState = MutableLiveData<Int>()
         val uiCallState: LiveData<Int>
             get() = callState
 
-        var call: Call? = null //콜 모듈에서만 접근 가능하도록 internal 추가
+        var call: Call? = null
             set(value) {
                 field?.unregisterCallback(callback)
                 value?.let {
@@ -58,7 +57,7 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
             ActivityCompat.requestPermissions(
                 context as Activity,
                 arrayOf(Manifest.permission.CALL_PHONE),
-                CallUtil.REQUEST_PERMISSION
+                CallAppConfig.REQUEST_PERMISSION
             )
         }
     }

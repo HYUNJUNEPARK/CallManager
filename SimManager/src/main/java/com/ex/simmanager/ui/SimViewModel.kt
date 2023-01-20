@@ -5,7 +5,6 @@ import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import android.telephony.SubscriptionInfo
 import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
 import androidx.core.content.ContextCompat
@@ -21,20 +20,23 @@ import com.ex.simmanager.util.SimModuleConst.RESTRICTED_ZONE_SERVICE
 
 class SimViewModel(application: Application) : AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
-    private val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+    //private val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
     private val subscriptionManager = context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
 
-    //디바아스 모든 USIM, eSIM 리스트(eSIM 의 경우 사용자 설정에 따라서 데이터가 없을 수 있음)
+    //디바이스 모든 USIM, eSIM 리스트(eSIM 의 경우 사용자 설정에 따라서 데이터가 없을 수 있음)
     private var _allSIMList = MutableLiveData<SimList>()
     val allSIMList : LiveData<SimList>
         get() = _allSIMList
 
-    //eSIM 디바이스 모델용
+    //eSIM 디바이스 모델용(API 28 이상부터 사용 권장)
     //eSIM을 지원하는 디바이스 모델의 경우 사용자가 USIM ON/OFF 를 설정할 수 있기 때문에 활성화된 USIM, eSIM 만 필터링할 필요가 있다.
     private var _activatedSIMList = MutableLiveData<ActivatedSimList>()
     val activatedSIMList : LiveData<ActivatedSimList>
         get() = _activatedSIMList
 
+    /**
+     * 디바이스 모든 USIM, eSIM 리스트를 가져온다.
+     */
     fun getAllSimList() {
         try {
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
@@ -51,7 +53,7 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
                         )
                         simList.add(simItem)
                     } else {
-                        //eSIM 없는 모델
+                    //eSIM 없는 모델
                         val simItem = SimItem(
                             number = sim.number,
                             isEmbedded = false,
@@ -73,8 +75,8 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     /**
-     * 활성화된 SIM 스트를 가져온다.
-     * eSIM 지원 디바이스에서 필요 시 사용한다.
+     * 활성화된 SIM 리스트를 가져온다.
+     * eSIM 지원 디바이스에서 필요 시 사용한다.(API 28 이상부터 사용 권장)
      */
     fun getActivatedSimList() {
         try {
@@ -84,6 +86,7 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
             val activatedSimList = ActivatedSimList()
 
             for (sim in allSIMList.value!!.iterator()) {
+                //TODO CharSequence 와 String 을 비교 중 문제 없는지 확인할 것
                 if (sim.carrierName != RESTRICTED_ZONE_SERVICE && sim.carrierName != NOT_SERVICEABLE) {
                     val activatedSimItem = ActivatedSimItem(
                         number = sim.number,
@@ -92,6 +95,7 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
                     activatedSimList.add(activatedSimItem)
                 }
             }
+
             _activatedSIMList.value = activatedSimList
             println("activatedSimList(LiveData) : ${activatedSIMList.value}")
         } catch (e: SecurityException) {
@@ -102,35 +106,8 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
             e.printStackTrace()
         }
     }
-
-    fun enabledUSIM(): Boolean {
-        //val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        return when (telephonyManager.simState) {
-            TelephonyManager.SIM_STATE_READY -> true
-            else -> false
-        }
-    }
-
-    fun getSubInfoList(): List<SubscriptionInfo>? {
-        return if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
-            (context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager).activeSubscriptionInfoList
-        } else {
-            null
-        }
-    }
-
-
-    fun getPhoneNumberList(subInfoList: List<SubscriptionInfo>?): ArrayList<String> {
-        val phoneNumbers = ArrayList<String>()
-
-        if (subInfoList != null)
-            for (subInfo in subInfoList) {
-                phoneNumbers.add(subInfo.number)
-            }
-        return phoneNumbers
-    }
-
 }
+
 
 //안드로이드 현재 단말기가 더블 유심일 경우 전화번호를 가져오는
 //https://gooners0304.tistory.com/entry/%ED%98%84%EC%9E%AC-%EB%8B%A8%EB%A7%90%EA%B8%B0%EA%B0%80-%EB%8D%94%EB%B8%94-%EC%9C%A0%EC%8B%AC%EC%9D%BC-%EA%B2%BD%EC%9A%B0-%EC%A0%84%ED%99%94%EB%B2%88%ED%98%B8%EB%A5%BC-%EA%B0%80%EC%A0%B8%EC%98%A4%EB%8A%94-%EB%A9%94%EC%86%8C%EB%93%9C

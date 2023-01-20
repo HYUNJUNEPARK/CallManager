@@ -17,25 +17,25 @@ import com.module.callex.databinding.ActivityMainBinding
 import com.module.callex.ui.CallViewModel.Companion.uiCallState
 import com.module.callex.util.CallModuleConst.CALL_OUTGOING
 import com.module.callex.util.CallModuleConst.INTENT_KEY_CALL_STATE
-import com.module.callex.util.CallUtil
+import com.module.callex.util.CallAppConfig
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var permission: Permission
-    private lateinit var callUtil: CallUtil
+    private lateinit var callAppConfig: CallAppConfig
 
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         permission = Permission(this)
-        callUtil = CallUtil(this)
+        callAppConfig = CallAppConfig(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.callLogViewModel = CallLogViewModel(application)
         binding.contactViewModel = ContactViewModel(application)
         binding.callViewModel = CallViewModel(application)
         binding.simViewModel = SimViewModel(application)
-        binding.callUtil = callUtil
+        binding.callUtil = callAppConfig
         binding.main = this
         binding.logType = LogType.OUTGOING //테스트 파라미터
 
@@ -57,14 +57,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun changeDefaultDialer() {
-        val intent = callUtil.createDefaultDialerIntent()
+        val intent = callAppConfig.createDefaultDialerIntent()
         changeDefaultDialerResultLauncher.launch(intent)
     }
 
     //기본 전화 앱으로 변경 되었는지 결과를 확인하기 위한 ActivityResultLauncher
     private val changeDefaultDialerResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (callUtil.isDefaultDialer) {
+            if (callAppConfig.isDefaultDialer) {
                 //기본 앱으로 설정되었을 때
             } else {
                 //기본 앱으로 설정되지 않았을 때

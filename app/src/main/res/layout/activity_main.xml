@@ -24,7 +24,7 @@
 
         <variable
             name="callUtil"
-            type="com.module.callex.util.CallUtil" />
+            type="com.module.callex.util.CallAppConfig" />
 
         <variable
             name="simViewModel"
