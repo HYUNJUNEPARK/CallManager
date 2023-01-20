@@ -20,7 +20,7 @@ class CallActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_call)
-        binding.callViewModel = CallViewModel()
+        binding.callViewModel = CallViewModel(application)
         binding.activity = this
         handler = Handler() //TODO Instead, use an java.util.concurrent.Executor
 
@@ -54,7 +54,7 @@ class CallActivity : AppCompatActivity() {
         uiCallState.observe(this) { callState ->
             when(callState) {
                 Call.STATE_DIALING -> {
-                    binding.callState = "전화 거는 중"
+                    binding.callState = "전화 거는 중..."
                 }
                 //전화 올 때
                 Call.STATE_RINGING -> {

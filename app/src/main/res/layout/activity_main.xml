@@ -18,6 +18,11 @@
             type="com.module.callex.ui.ContactViewModel" />
 
         <variable
+            name="callViewModel"
+            type="com.module.callex.ui.CallViewModel" />
+
+
+        <variable
             name="callUtil"
             type="com.module.callex.util.CallUtil" />
 
@@ -77,7 +82,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:onClick="@{()->callUtil.makeCall(editText.getText().toString())}"
+                    android:onClick="@{()->callViewModel.makeCall(editText.getText().toString())}"
                     android:text="makeCall(testNumber)"
                     android:textAllCaps="false"
                     app:layout_constraintBottom_toBottomOf="parent"
