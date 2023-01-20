@@ -21,6 +21,9 @@
             name="callViewModel"
             type="com.module.callex.ui.CallViewModel" />
 
+        <variable
+            name="ESimCallManager"
+            type="com.module.callex.util.esim.ESimCallManager" />
 
         <variable
             name="callUtil"
@@ -191,6 +194,19 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/button10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:textAllCaps="false"
+                    android:onClick="@{()->ESimCallManager.makeCall(editText.getText().toString())}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

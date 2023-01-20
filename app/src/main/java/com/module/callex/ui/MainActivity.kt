@@ -10,14 +10,15 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.ex.simmanager.ui.SimViewModel
-import com.module.callex.util.Permission
 import com.module.callex.R
 import com.module.callex.data.model.log.LogType
 import com.module.callex.databinding.ActivityMainBinding
 import com.module.callex.ui.CallViewModel.Companion.uiCallState
+import com.module.callex.util.CallAppConfig
 import com.module.callex.util.CallManagerConst.CALL_OUTGOING
 import com.module.callex.util.CallManagerConst.INTENT_KEY_CALL_STATE
-import com.module.callex.util.CallAppConfig
+import com.module.callex.util.Permission
+import com.module.callex.util.esim.ESimCallManager
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         binding.contactViewModel = ContactViewModel(application)
         binding.callViewModel = CallViewModel(application)
         binding.simViewModel = SimViewModel(application)
+        binding.eSimCallManager = ESimCallManager(application)
         binding.callUtil = callAppConfig
         binding.main = this
         binding.logType = LogType.OUTGOING //테스트 파라미터
