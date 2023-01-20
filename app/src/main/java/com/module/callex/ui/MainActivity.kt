@@ -10,7 +10,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.ex.simmanager.ui.SimViewModel
-import com.module.callex.Permission
+import com.module.callex.util.Permission
 import com.module.callex.R
 import com.module.callex.data.model.log.LogType
 import com.module.callex.databinding.ActivityMainBinding
@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.callLogViewModel = CallLogViewModel(application)
         binding.contactViewModel = ContactViewModel(application)
+        binding.callViewModel = CallViewModel(application)
         binding.simViewModel = SimViewModel(application)
         binding.callUtil = callUtil
         binding.main = this
@@ -40,9 +41,6 @@ class MainActivity : AppCompatActivity() {
 
         permission.checkPermissions()
         callStateObserver()
-
-        //SimViewModel(application).uSimCheck()
-
     }
 
     override fun onRequestPermissionsResult(

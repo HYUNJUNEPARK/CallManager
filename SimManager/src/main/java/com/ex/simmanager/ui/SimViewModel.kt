@@ -5,7 +5,9 @@ import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import android.telephony.SubscriptionInfo
 import android.telephony.SubscriptionManager
+import android.telephony.TelephonyManager
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -19,7 +21,7 @@ import com.ex.simmanager.util.SimModuleConst.RESTRICTED_ZONE_SERVICE
 
 class SimViewModel(application: Application) : AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
-    //private val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+    private val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
     private val subscriptionManager = context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
 
     //디바아스 모든 USIM, eSIM 리스트(eSIM 의 경우 사용자 설정에 따라서 데이터가 없을 수 있음)
@@ -32,7 +34,6 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
     private var _activatedSIMList = MutableLiveData<ActivatedSimList>()
     val activatedSIMList : LiveData<ActivatedSimList>
         get() = _activatedSIMList
-
 
     fun getAllSimList() {
         try {
@@ -101,6 +102,34 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
             e.printStackTrace()
         }
     }
+
+    fun enabledUSIM(): Boolean {
+        //val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        return when (telephonyManager.simState) {
+            TelephonyManager.SIM_STATE_READY -> true
+            else -> false
+        }
+    }
+
+    fun getSubInfoList(): List<SubscriptionInfo>? {
+        return if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+            (context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager).activeSubscriptionInfoList
+        } else {
+            null
+        }
+    }
+
+
+    fun getPhoneNumberList(subInfoList: List<SubscriptionInfo>?): ArrayList<String> {
+        val phoneNumbers = ArrayList<String>()
+
+        if (subInfoList != null)
+            for (subInfo in subInfoList) {
+                phoneNumbers.add(subInfo.number)
+            }
+        return phoneNumbers
+    }
+
 }
 
 //안드로이드 현재 단말기가 더블 유심일 경우 전화번호를 가져오는

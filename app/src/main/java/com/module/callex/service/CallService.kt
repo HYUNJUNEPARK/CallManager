@@ -25,6 +25,7 @@ class CallService : InCallService() {
             }
         } else {
             //TODO SDK 31 이하
+            //TODO CallActivity onDestroy() 부분 함께 해결할 것
         }
     }
 
