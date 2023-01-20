@@ -6,7 +6,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.appcompat.app.AppCompatActivity
 
-class SoundUtil(private val context: Context) {
+class Sound(private val context: Context) {
     private val vibrator = context.getSystemService(AppCompatActivity.VIBRATOR_SERVICE) as Vibrator
 
     //디바이스 모드 식별 -> 무음? 진동? 소리?
