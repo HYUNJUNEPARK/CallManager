@@ -33,12 +33,12 @@ class ESimCallManager(private val context: Context) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 intent.putExtra(
                     "android.telecom.extra.PHONE_ACCOUNT_HANDLE",
-                    phoneAccountHandleList[1]
+                    phoneAccountHandleList[1] //TODO 여기에 심 슬롯 인덱스
                 )
             }
             context.startActivity(intent)
         } catch (e: SecurityException) {
-            //Manifest.permission.READ_PHONE_STATE
+            //TODO Handling Exception 'Manifest.permission.READ_PHONE_STATE'
             e.printStackTrace()
         } catch (e: IndexOutOfBoundsException) {
             e.printStackTrace()

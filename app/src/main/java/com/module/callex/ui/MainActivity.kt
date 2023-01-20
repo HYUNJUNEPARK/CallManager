@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.telecom.Call
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var permission: Permission
     private lateinit var callAppConfig: CallAppConfig
+    private lateinit var simViewModel: SimViewModel
 
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,16 +33,18 @@ class MainActivity : AppCompatActivity() {
 
         permission = Permission(this)
         callAppConfig = CallAppConfig(this)
+        simViewModel = SimViewModel(application)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.callLogViewModel = CallLogViewModel(application)
         binding.contactViewModel = ContactViewModel(application)
         binding.callViewModel = CallViewModel(application)
-        binding.simViewModel = SimViewModel(application)
+        binding.simViewModel = simViewModel
         binding.eSimCallManager = ESimCallManager(application)
         binding.callUtil = callAppConfig
         binding.main = this
         binding.logType = LogType.OUTGOING //테스트 파라미터
 
+        updateUI()
         permission.checkPermissions()
         callStateObserver()
     }
@@ -82,5 +86,25 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+    }
+
+    private fun updateUI() {
+        simViewModel.getActivatedSimList()
+        val simList = simViewModel.activatedSIMList.value
+
+        val simTypeSet = mutableSetOf<Boolean?>()
+        for (i in simList!!.iterator()) {
+            simTypeSet.add(i?.isEmbedded)
+        }
+
+        //TODO dataBinding 사용
+        if (simTypeSet.contains(true)) {
+            binding.esimCallButton.isEnabled = true
+        }
+
+        if (simTypeSet.contains(false)) {
+            binding.usimCallButton.isEnabled = true
+        }
+
     }
 }
