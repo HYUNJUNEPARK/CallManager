@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.module.callex.data.CallLocalDataSource
-import com.module.callex.data.model.contact.ContactList
+import com.module.callex.model.contact.ContactList
 
 class ContactViewModel(application: Application) : AndroidViewModel(application) {
     private val callLocalDataSource = CallLocalDataSource(application)

@@ -6,15 +6,14 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.telephony.SubscriptionManager
-import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.ex.simmanager.data.sim.ActivatedSimItem
-import com.ex.simmanager.data.sim.ActivatedSimList
-import com.ex.simmanager.data.sim.SimItem
-import com.ex.simmanager.data.sim.SimList
+import com.ex.simmanager.model.ActivatedSimItem
+import com.ex.simmanager.model.ActivatedSimList
+import com.ex.simmanager.model.SimItem
+import com.ex.simmanager.model.SimList
 import com.ex.simmanager.util.SimManagerConst.NOT_SERVICEABLE
 import com.ex.simmanager.util.SimManagerConst.RESTRICTED_ZONE_SERVICE
 

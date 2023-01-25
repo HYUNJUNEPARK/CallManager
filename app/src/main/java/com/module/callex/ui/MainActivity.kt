@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.ex.simmanager.ui.SimViewModel
 import com.module.callex.R
-import com.module.callex.data.model.log.LogType
+import com.module.callex.model.log.LogType
 import com.module.callex.databinding.ActivityMainBinding
 import com.module.callex.ui.CallViewModel.Companion.uiCallState
 import com.module.callex.util.CallAppConfig
@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         binding.main = this
         binding.logType = LogType.OUTGOING //테스트 파라미터
 
+        //TODO 앱 최초 실행 시 권한이 없다면 앱 크래시
         updateUI()
         permission.checkPermissions()
         callStateObserver()
@@ -90,10 +91,18 @@ class MainActivity : AppCompatActivity() {
         val simList = simViewModel.activatedSIMList.value
 
         val simTypeSet = mutableSetOf<Boolean?>()
-        for (i in simList!!.iterator()) {
-            simTypeSet.add(i?.isEmbedded)
-        }
+        for (simItem in simList!!.iterator()) {
+            //eSIM, USIM 활성화 데이터를 셋에 담는다.
+            simTypeSet.add(simItem?.isEmbedded)
 
+            //simSlotIdx 데이터 바인딩
+            if (simItem?.isEmbedded!!) {
+                binding.esimSlotIdx = simItem.simSlotIndex
+            } else {
+                binding.usimSlotIdx = simItem.simSlotIndex
+            }
+        }
+        //sim 활성 상태 데이터 바인딩
         binding.isActivatedUSIM = simTypeSet.contains(false)
         binding.isActivatedESIM = simTypeSet.contains(true)
     }

@@ -1,6 +1,7 @@
-CallManager 1.0.0
+CallManager 1.1.0
 -CallUtil 클래스 -> CallAppConfig 클래스 rename
 -CallModuleConst -> CallManagerConst rename
+-MakeCall eSim 지원 모델 통화 기능 오버로딩 메서드 추가
 
 콜모듈 레퍼런스
 //안드로이드 현재 단말기가 더블 유심일 경우 전화번호를 가져오는

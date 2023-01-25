@@ -1,6 +1,6 @@
 package com.module.callex.util
 
-object ESimConst {
+object SimConst {
     val simSlotName = arrayOf(
         "extra_asus_dial_use_dualsim",
         "com.android.phone.extra.slot",

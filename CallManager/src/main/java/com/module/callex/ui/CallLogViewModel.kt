@@ -5,8 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.module.callex.data.CallLocalDataSource
-import com.module.callex.data.model.log.CallLogList
-import com.module.callex.data.model.log.LogType
+import com.module.callex.model.log.CallLogList
+import com.module.callex.model.log.LogType
 
 class CallLogViewModel(application: Application) : AndroidViewModel(application) {
     private val callLocalDataSource = CallLocalDataSource(application)

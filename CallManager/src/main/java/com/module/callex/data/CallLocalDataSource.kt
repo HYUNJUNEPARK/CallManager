@@ -4,10 +4,10 @@ import android.content.Context
 import android.net.Uri
 import android.provider.CallLog
 import android.provider.ContactsContract
-import com.module.callex.data.model.contact.ContactItem
-import com.module.callex.data.model.contact.ContactList
-import com.module.callex.data.model.log.CallLogItem
-import com.module.callex.data.model.log.CallLogList
+import com.module.callex.model.contact.ContactItem
+import com.module.callex.model.contact.ContactList
+import com.module.callex.model.log.CallLogItem
+import com.module.callex.model.log.CallLogList
 
 //TODO 개발 진행에 따라 로그 데이터 소스와 연락처 데이터 소스를 분리해야할 수도 있음
 class CallLocalDataSource(private val context: Context) {

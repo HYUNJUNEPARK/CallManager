@@ -21,7 +21,7 @@ import androidx.lifecycle.MutableLiveData
 import com.module.callex.util.CallManagerConst.CALL_OUTGOING
 import com.module.callex.util.CallManagerConst.INTENT_KEY_CALL_STATE
 import com.module.callex.util.CallManagerConst.REQUEST_PERMISSION
-import com.module.callex.util.ESimConst.simSlotName
+import com.module.callex.util.SimConst.simSlotName
 
 class CallViewModel(application: Application): AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
@@ -56,7 +56,7 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
 
     /**
      * 앱에 통화 권한이 있다면 디폴트 앱에 파라미터로 번호를 전달
-     * @param phoneNumber
+     * @param phoneNumber 수신 전화 번호
      */
     fun makeCall(phoneNumber: String) {
         if (PermissionChecker.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PermissionChecker.PERMISSION_GRANTED) {
@@ -74,8 +74,11 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    //TODO 코드 이해 필요함
     /**
      * eSIM 지원 모델에서 통화 기능을 구현한다.
+     * @param phoneNumber 수신 전화 번호
+     * @param simSlotIdx sim 이 삽입된 슬롯 인덱스
      */
     fun makeCall(phoneNumber: String, simSlotIdx: Int) {
         try {
@@ -103,10 +106,16 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    /**
+     * 전화 응답한다.
+     */
     fun answerCall() {
         call!!.answer(VideoProfile.STATE_AUDIO_ONLY)
     }
 
+    /**
+     * 전화를 끊는다.
+     */
     fun disconnectCall() {
         call!!.disconnect()
     }
