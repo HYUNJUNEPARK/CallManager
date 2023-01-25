@@ -21,9 +21,16 @@ import androidx.lifecycle.MutableLiveData
 import com.module.callex.util.CallManagerConst.CALL_OUTGOING
 import com.module.callex.util.CallManagerConst.INTENT_KEY_CALL_STATE
 import com.module.callex.util.CallManagerConst.REQUEST_PERMISSION
+import com.module.callex.util.ESimConst.simSlotName
 
 class CallViewModel(application: Application): AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
+
+    private var telecomManager: TelecomManager = context.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
+
+    //권한이 없다면 makeCall() SecurityException 에서 걸림
+    @SuppressLint("MissingPermission")
+    var phoneAccountHandleList: List<PhoneAccountHandle> =telecomManager.callCapablePhoneAccounts
 
     companion object {
         var callState = MutableLiveData<Int>()
@@ -64,6 +71,35 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
                 arrayOf(Manifest.permission.CALL_PHONE),
                 REQUEST_PERMISSION
             )
+        }
+    }
+
+    /**
+     * eSIM 지원 모델에서 통화 기능을 구현한다.
+     */
+    fun makeCall(phoneNumber: String, simSlotIdx: Int) {
+        try {
+            val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$phoneNumber"))
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra("com.android.phone.force.slot", true)
+            intent.putExtra("Cdma_Supp", true)
+            for (sim in simSlotName) {
+                intent.putExtra(sim, 0)
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                intent.putExtra(
+                    "android.telecom.extra.PHONE_ACCOUNT_HANDLE",
+                    phoneAccountHandleList[simSlotIdx]
+                )
+            }
+            context.startActivity(intent)
+        } catch (e: SecurityException) {
+            //TODO Handling Exception 'Manifest.permission.READ_PHONE_STATE'
+            e.printStackTrace()
+        } catch (e: IndexOutOfBoundsException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="main"
             type="com.module.callex.ui.MainActivity" />
@@ -22,10 +21,6 @@
             type="com.module.callex.ui.CallViewModel" />
 
         <variable
-            name="ESimCallManager"
-            type="com.module.callex.util.esim.ESimCallManager" />
-
-        <variable
             name="callUtil"
             type="com.module.callex.util.CallAppConfig" />
 
@@ -40,6 +35,23 @@
         <variable
             name="logType"
             type="com.module.callex.data.model.log.LogType" />
+
+        <variable
+            name="isActivatedUSIM"
+            type="Boolean" />
+
+        <variable
+            name="isActivatedESIM"
+            type="Boolean" />
+        
+        <variable
+            name=""
+            type="" />
+        
+        <variable
+            name=""
+            type="" />
+        
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -66,20 +78,8 @@
                 <EditText
                     android:id="@+id/editText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:inputType="number" />
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:onClick="@{()->contactViewModel.getContacts()}"
-                    android:text="getContacts()"
-                    android:textAllCaps="false"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:layout_width="match_parent"
@@ -87,6 +87,52 @@
                     android:layout_margin="5dp"
                     android:onClick="@{()->callViewModel.makeCall(editText.getText().toString())}"
                     android:text="makeCall(testNumber)"
+                    android:textAllCaps="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/usim_call_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:enabled="@{isActivatedUSIM}"
+                        android:text="makeCall[USIM]"
+                        android:textAllCaps="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/esim_call_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:enabled="@{isActivatedESIM}"
+                        
+                        android:text="makeCall[eSIM]"
+                        android:textAllCaps="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:onClick="@{()->contactViewModel.getContacts()}"
+                    android:text="getContacts()"
                     android:textAllCaps="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -194,44 +240,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/usim_call_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:enabled="false"
-                        android:onClick="@{()->ESimCallManager.makeCall(editText.getText().toString())}"
-                        android:text="makeCall[USIM]"
-                        android:textAllCaps="false"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <Button
-                        android:id="@+id/esim_call_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:enabled="false"
-                        android:onClick="@{()->callViewModel.makeCall(editText.getText().toString())}"
-                        android:text="makeCall[eSIM]"
-                        android:textAllCaps="false"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </LinearLayout>
-
-
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

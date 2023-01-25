@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.telecom.Call
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +18,6 @@ import com.module.callex.util.CallAppConfig
 import com.module.callex.util.CallManagerConst.CALL_OUTGOING
 import com.module.callex.util.CallManagerConst.INTENT_KEY_CALL_STATE
 import com.module.callex.util.Permission
-import com.module.callex.util.esim.ESimCallManager
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -39,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         binding.contactViewModel = ContactViewModel(application)
         binding.callViewModel = CallViewModel(application)
         binding.simViewModel = simViewModel
-        binding.eSimCallManager = ESimCallManager(application)
         binding.callUtil = callAppConfig
         binding.main = this
         binding.logType = LogType.OUTGOING //테스트 파라미터
@@ -97,14 +94,7 @@ class MainActivity : AppCompatActivity() {
             simTypeSet.add(i?.isEmbedded)
         }
 
-        //TODO dataBinding 사용
-        if (simTypeSet.contains(true)) {
-            binding.esimCallButton.isEnabled = true
-        }
-
-        if (simTypeSet.contains(false)) {
-            binding.usimCallButton.isEnabled = true
-        }
-
+        binding.isActivatedUSIM = simTypeSet.contains(false)
+        binding.isActivatedESIM = simTypeSet.contains(true)
     }
 }

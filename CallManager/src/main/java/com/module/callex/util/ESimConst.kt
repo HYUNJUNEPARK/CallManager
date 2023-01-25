@@ -1,4 +1,4 @@
-package com.module.callex.util.esim
+package com.module.callex.util
 
 object ESimConst {
     val simSlotName = arrayOf(

@@ -9,7 +9,7 @@ import com.module.callex.data.model.contact.ContactList
 import com.module.callex.data.model.log.CallLogItem
 import com.module.callex.data.model.log.CallLogList
 
-//TODO 개발 진행에 따라 로그 데이터소스와 연락처 데이터 소스를 분리해야할 수도 있음
+//TODO 개발 진행에 따라 로그 데이터 소스와 연락처 데이터 소스를 분리해야할 수도 있음
 class CallLocalDataSource(private val context: Context) {
 //전화 기록 관련 API
     /**
