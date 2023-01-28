@@ -21,10 +21,6 @@
             type="com.module.callex.ui.CallViewModel" />
 
         <variable
-            name="callUtil"
-            type="com.module.callex.util.CallAppConfig" />
-
-        <variable
             name="simViewModel"
             type="com.ex.simmanager.ui.SimViewModel" />
 
@@ -76,6 +72,7 @@
                     android:text="CallManager Test" />
 
                 <EditText
+                    android:hint="발신 번호"
                     android:id="@+id/editText"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"

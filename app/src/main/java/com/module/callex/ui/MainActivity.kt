@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.ex.simmanager.ui.SimViewModel
 import com.module.callex.R
-import com.module.callex.model.log.LogType
 import com.module.callex.databinding.ActivityMainBinding
+import com.module.callex.model.log.LogType
 import com.module.callex.ui.CallViewModel.Companion.uiCallState
 import com.module.callex.util.CallAppConfig
 import com.module.callex.util.CallManagerConst.CALL_OUTGOING
@@ -37,11 +37,9 @@ class MainActivity : AppCompatActivity() {
         binding.contactViewModel = ContactViewModel(application)
         binding.callViewModel = CallViewModel(application)
         binding.simViewModel = simViewModel
-        binding.callUtil = callAppConfig
         binding.main = this
         binding.logType = LogType.OUTGOING //테스트 파라미터
 
-        //TODO 앱 최초 실행 시 권한이 없다면 앱 크래시
         updateUI()
         permission.checkPermissions()
         callStateObserver()

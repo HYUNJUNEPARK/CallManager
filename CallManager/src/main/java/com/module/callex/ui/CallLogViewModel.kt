@@ -1,6 +1,8 @@
 package com.module.callex.ui
 
+import android.Manifest
 import android.app.Application
+import androidx.core.content.PermissionChecker
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +11,8 @@ import com.module.callex.model.log.CallLogList
 import com.module.callex.model.log.LogType
 
 class CallLogViewModel(application: Application) : AndroidViewModel(application) {
-    private val callLogLocalDataSource = CallLogLocalDataSource(application)
+    private val context = getApplication<Application>().applicationContext
+    private val callLogLocalDataSource = CallLogLocalDataSource(context)
 
     //모든 콜 로그 데이터
     private var _callLogList = MutableLiveData<CallLogList>()
@@ -46,6 +49,12 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
      * @param logType LogType.OUTGOING() / LogType.INCOMING() / LogType.MISSED() 기능만 구현되어 있음
      */
     fun getCallLog(logType: LogType) {
+        //콜로그 접근 권한이 없는 경우
+        if (PermissionChecker.checkSelfPermission(context, Manifest.permission.READ_CALL_LOG) == PermissionChecker.PERMISSION_DENIED) {
+            return
+        }
+
+        //콜로그 접근 권한이 있는 경우
         if(callLogList.value == null) {
             getAllCallLog()
         }
@@ -99,6 +108,12 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
      * 디바이스 로그 데이터가 완전히 삭제되면, 콜 로그 관련 LiveData 모두 초기화
      */
     fun deleteAllCallLog() {
+        //콜로그 접근 권한이 없는 경우
+        if (PermissionChecker.checkSelfPermission(context, Manifest.permission.WRITE_CALL_LOG) == PermissionChecker.PERMISSION_DENIED) {
+            return
+        }
+
+        //콜로그 접근 권한이 있는 경우
         callLogLocalDataSource.deleteAllCallLog().let { result ->
             if (result) {
                 _callLogList.value?.clear()
@@ -116,6 +131,12 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
      * @param logIdList 지우려하는 콜로그 ID 리스트
      */
     fun deleteCallLog(logIdList: ArrayList<String>) {
+        //콜로그 접근 권한이 없는 경우
+        if (PermissionChecker.checkSelfPermission(context, Manifest.permission.WRITE_CALL_LOG) == PermissionChecker.PERMISSION_DENIED) {
+            return
+        }
+
+        //콜로그 접근 권한이 있는 경우
         callLogLocalDataSource.deleteCallLog(logIdList).let { result ->
             if (result) {
                 getAllCallLog()

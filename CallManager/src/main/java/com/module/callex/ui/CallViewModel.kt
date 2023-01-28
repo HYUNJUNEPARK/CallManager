@@ -1,8 +1,6 @@
 package com.module.callex.ui
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.Intent
@@ -12,7 +10,6 @@ import android.telecom.Call
 import android.telecom.PhoneAccountHandle
 import android.telecom.TelecomManager
 import android.telecom.VideoProfile
-import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker
 import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
@@ -20,17 +17,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.module.callex.util.CallManagerConst.CALL_OUTGOING
 import com.module.callex.util.CallManagerConst.INTENT_KEY_CALL_STATE
-import com.module.callex.util.CallManagerConst.REQUEST_PERMISSION
 import com.module.callex.util.SimConst.simSlotName
 
 class CallViewModel(application: Application): AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
-
     private var telecomManager: TelecomManager = context.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
-
-    //권한이 없다면 makeCall() SecurityException 에서 걸림
-    @SuppressLint("MissingPermission")
-    var phoneAccountHandleList: List<PhoneAccountHandle> =telecomManager.callCapablePhoneAccounts
 
     companion object {
         var callState = MutableLiveData<Int>()
@@ -59,19 +50,25 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
      * @param phoneNumber 수신 전화 번호
      */
     fun makeCall(phoneNumber: String) {
-        if (PermissionChecker.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PermissionChecker.PERMISSION_GRANTED) {
+        try {
+            //통화 권한이 없는 경우
+            if (PermissionChecker.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PermissionChecker.PERMISSION_DENIED) {
+                return
+            }
+
+            //통화 권한이 있는 경우
             val uri = "tel:$phoneNumber".toUri()
             val intent = Intent(Intent.ACTION_CALL, uri)
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 .putExtra(INTENT_KEY_CALL_STATE, CALL_OUTGOING)
             context.startActivity(intent)
-        } else {
-            //권한 요청창 요픈
-            ActivityCompat.requestPermissions(
-                context as Activity,
-                arrayOf(Manifest.permission.CALL_PHONE),
-                REQUEST_PERMISSION
-            )
+
+        } catch (e: SecurityException) {
+            e.printStackTrace()
+        } catch (e: IndexOutOfBoundsException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -83,7 +80,13 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
      */
     fun makeCall(phoneNumber: String, simSlotIdx: Int) {
         try {
+            //통화 권한이 없는 경우
+            if(PermissionChecker.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PermissionChecker.PERMISSION_DENIED) {
+                return
+            }
 
+            //통화 권한이 있는 경우
+            val phoneAccountHandleList: List<PhoneAccountHandle> =  telecomManager.callCapablePhoneAccounts //TODO 권한 관련해 에러가 있었음
             val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$phoneNumber"))
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             intent.putExtra("com.android.phone.force.slot", true)
@@ -98,8 +101,8 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
                 )
             }
             context.startActivity(intent)
+
         } catch (e: SecurityException) {
-            //TODO Handling Exception 'Manifest.permission.READ_PHONE_STATE'
             e.printStackTrace()
         } catch (e: IndexOutOfBoundsException) {
             e.printStackTrace()
