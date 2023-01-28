@@ -66,6 +66,7 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
                 .putExtra(INTENT_KEY_CALL_STATE, CALL_OUTGOING)
             context.startActivity(intent)
         } else {
+            //권한 요청창 요픈
             ActivityCompat.requestPermissions(
                 context as Activity,
                 arrayOf(Manifest.permission.CALL_PHONE),
@@ -82,6 +83,7 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
      */
     fun makeCall(phoneNumber: String, simSlotIdx: Int) {
         try {
+
             val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$phoneNumber"))
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             intent.putExtra("com.android.phone.force.slot", true)
