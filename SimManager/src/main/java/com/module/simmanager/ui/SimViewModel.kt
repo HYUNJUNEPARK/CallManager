@@ -1,4 +1,4 @@
-package com.ex.simmanager.ui
+package com.module.simmanager.ui
 
 import android.Manifest
 import android.app.Application
@@ -10,12 +10,12 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.ex.simmanager.model.ActivatedSimItem
-import com.ex.simmanager.model.ActivatedSimList
-import com.ex.simmanager.model.SimItem
-import com.ex.simmanager.model.SimList
-import com.ex.simmanager.util.SimManagerConst.NOT_SERVICEABLE
-import com.ex.simmanager.util.SimManagerConst.RESTRICTED_ZONE_SERVICE
+import com.module.simmanager.model.ActivatedSimItem
+import com.module.simmanager.model.ActivatedSimList
+import com.module.simmanager.model.SimItem
+import com.module.simmanager.model.SimList
+import com.module.simmanager.util.SimManagerConst.NOT_SERVICEABLE
+import com.module.simmanager.util.SimManagerConst.RESTRICTED_ZONE_SERVICE
 
 class SimViewModel(application: Application) : AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext

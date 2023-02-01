@@ -1,4 +1,4 @@
-package com.ex.simmanager
+package com.module.simmanager
 
 import org.junit.Test
 

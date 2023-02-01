@@ -1,3 +1,3 @@
-package com.ex.simmanager.model
+package com.module.simmanager.model
 
 class SimList : ArrayList<SimItem?>()

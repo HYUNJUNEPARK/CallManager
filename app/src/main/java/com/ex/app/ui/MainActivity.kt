@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.ex.app.R
 import com.ex.app.databinding.ActivityMainBinding
-import com.ex.simmanager.ui.SimViewModel
+import com.module.simmanager.ui.SimViewModel
 import com.module.callmanager.model.log.LogType
 import com.module.callmanager.ui.CallLogViewModel
 import com.module.callmanager.ui.CallViewModel

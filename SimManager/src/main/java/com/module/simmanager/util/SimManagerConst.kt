@@ -1,4 +1,4 @@
-package com.ex.simmanager.util
+package com.module.simmanager.util
 
 object SimManagerConst {
     //USIM carrierName

@@ -22,7 +22,7 @@
 
         <variable
             name="simViewModel"
-            type="com.ex.simmanager.ui.SimViewModel" />
+            type="com.module.simmanager.ui.SimViewModel" />
 
         <variable
             name="testNumber"
