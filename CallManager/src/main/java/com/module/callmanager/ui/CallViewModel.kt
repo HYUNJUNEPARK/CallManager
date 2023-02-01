@@ -22,9 +22,6 @@ import com.module.callmanager.util.SimConst.simSlotName
 class CallViewModel(application: Application): AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
 
-    //TODO makeCall() 내부로 넣는 것 생각해 볼 것
-    private var telecomManager: TelecomManager = context.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
-
     companion object {
         var callState = MutableLiveData<Int>()
         val uiCallState: LiveData<Int>
@@ -87,6 +84,7 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
             }
 
             //통화 권한이 있는 경우
+            val telecomManager: TelecomManager = context.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
             val phoneAccountHandleList: List<PhoneAccountHandle> =  telecomManager.callCapablePhoneAccounts //TODO 권한 관련해 에러가 있었음
             val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$phoneNumber"))
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK

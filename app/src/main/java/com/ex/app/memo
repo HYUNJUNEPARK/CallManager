@@ -1,3 +1,11 @@
 1.1.1
 CallManager DataSource 분리 - CallLog / Contact
 뷰모델 메서드 권한 체크 추가
+
+1.1.2
+권한 버그 수정
+
+TODO
+SimManager DataSource 분리
+일부 주석 수정
+권한이 없을 경우 return 으로 메서드를 끝낼 것이 아니라 모듈 사용자에게 내용을 전달할 필요가 있을 듯
