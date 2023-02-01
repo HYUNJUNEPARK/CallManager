@@ -1,4 +1,4 @@
-package com.module.callex.util
+package com.module.callmanager.util
 
 object CallManagerConst {
     const val INTENT_KEY_CALL_STATE = "call"

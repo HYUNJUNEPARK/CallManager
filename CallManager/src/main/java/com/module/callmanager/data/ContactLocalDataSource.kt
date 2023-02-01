@@ -1,10 +1,10 @@
-package com.module.callex.data
+package com.module.callmanager.data
 
 import android.content.Context
 import android.net.Uri
 import android.provider.ContactsContract
-import com.module.callex.model.contact.ContactItem
-import com.module.callex.model.contact.ContactList
+import com.module.callmanager.model.contact.ContactItem
+import com.module.callmanager.model.contact.ContactList
 
 class ContactLocalDataSource(private val context: Context) {
     /**

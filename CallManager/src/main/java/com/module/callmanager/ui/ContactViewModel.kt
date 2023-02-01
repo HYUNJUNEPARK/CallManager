@@ -1,16 +1,13 @@
-package com.module.callex.ui
+package com.module.callmanager.ui
 
 import android.Manifest
-import android.app.Activity
 import android.app.Application
-import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.module.callex.data.ContactLocalDataSource
-import com.module.callex.model.contact.ContactList
-import com.module.callex.util.CallManagerConst
+import com.module.callmanager.data.ContactLocalDataSource
+import com.module.callmanager.model.contact.ContactList
 
 class ContactViewModel(application: Application) : AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext

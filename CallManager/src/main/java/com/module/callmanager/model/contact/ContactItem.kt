@@ -1,4 +1,4 @@
-package com.module.callex.model.contact
+package com.module.callmanager.model.contact
 
 data class ContactItem(
     var id: String,

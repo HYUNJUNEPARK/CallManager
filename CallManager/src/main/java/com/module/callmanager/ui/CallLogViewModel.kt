@@ -1,4 +1,4 @@
-package com.module.callex.ui
+package com.module.callmanager.ui
 
 import android.Manifest
 import android.app.Application
@@ -6,9 +6,9 @@ import androidx.core.content.PermissionChecker
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.module.callex.data.CallLogLocalDataSource
-import com.module.callex.model.log.CallLogList
-import com.module.callex.model.log.LogType
+import com.module.callmanager.data.CallLogLocalDataSource
+import com.module.callmanager.model.log.CallLogList
+import com.module.callmanager.model.log.LogType
 
 class CallLogViewModel(application: Application) : AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext

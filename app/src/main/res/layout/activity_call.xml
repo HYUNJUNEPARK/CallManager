@@ -11,7 +11,7 @@
 
         <variable
             name="callViewModel"
-            type="com.module.callex.ui.CallViewModel" />
+            type="com.module.callmanager.ui.CallViewModel" />
 
         <variable
             name="callState"

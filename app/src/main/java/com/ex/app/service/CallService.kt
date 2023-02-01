@@ -5,9 +5,9 @@ import android.os.Build
 import android.telecom.Call
 import android.telecom.InCallService
 import com.ex.app.ui.CallActivity
-import com.module.callex.ui.CallViewModel
-import com.module.callex.util.CallManagerConst.CALL_INCOMING
-import com.module.callex.util.CallManagerConst.INTENT_KEY_CALL_STATE
+import com.module.callmanager.ui.CallViewModel
+import com.module.callmanager.util.CallManagerConst.CALL_INCOMING
+import com.module.callmanager.util.CallManagerConst.INTENT_KEY_CALL_STATE
 
 class CallService : InCallService() {
     override fun onCallAdded(call: Call) {

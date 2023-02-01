@@ -1,9 +1,9 @@
-package com.module.callex.data
+package com.module.callmanager.data
 
 import android.content.Context
 import android.provider.CallLog
-import com.module.callex.model.log.CallLogItem
-import com.module.callex.model.log.CallLogList
+import com.module.callmanager.model.log.CallLogItem
+import com.module.callmanager.model.log.CallLogList
 
 class CallLogLocalDataSource(private val context: Context) {
     /**

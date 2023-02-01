@@ -1,4 +1,4 @@
-package com.module.callex.ui
+package com.module.callmanager.ui
 
 import android.Manifest
 import android.app.Application
@@ -15,9 +15,9 @@ import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.module.callex.util.CallManagerConst.CALL_OUTGOING
-import com.module.callex.util.CallManagerConst.INTENT_KEY_CALL_STATE
-import com.module.callex.util.SimConst.simSlotName
+import com.module.callmanager.util.CallManagerConst.CALL_OUTGOING
+import com.module.callmanager.util.CallManagerConst.INTENT_KEY_CALL_STATE
+import com.module.callmanager.util.SimConst.simSlotName
 
 class CallViewModel(application: Application): AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext

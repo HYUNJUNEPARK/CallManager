@@ -1,4 +1,4 @@
-package com.module.callex.model.log
+package com.module.callmanager.model.log
 
 data class CallLogItem(
     var id: String?,

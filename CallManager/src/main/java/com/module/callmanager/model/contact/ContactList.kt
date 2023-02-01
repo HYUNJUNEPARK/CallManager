@@ -1,3 +1,3 @@
-package com.module.callex.model.contact
+package com.module.callmanager.model.contact
 
 class ContactList : ArrayList<ContactItem?>()

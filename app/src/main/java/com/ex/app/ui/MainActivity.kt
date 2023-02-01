@@ -12,14 +12,14 @@ import androidx.databinding.DataBindingUtil
 import com.ex.app.R
 import com.ex.app.databinding.ActivityMainBinding
 import com.ex.simmanager.ui.SimViewModel
-import com.module.callex.model.log.LogType
-import com.module.callex.ui.CallLogViewModel
-import com.module.callex.ui.CallViewModel
-import com.module.callex.ui.CallViewModel.Companion.uiCallState
-import com.module.callex.ui.ContactViewModel
-import com.module.callex.util.CallAppConfig
-import com.module.callex.util.CallManagerConst.CALL_OUTGOING
-import com.module.callex.util.CallManagerConst.INTENT_KEY_CALL_STATE
+import com.module.callmanager.model.log.LogType
+import com.module.callmanager.ui.CallLogViewModel
+import com.module.callmanager.ui.CallViewModel
+import com.module.callmanager.ui.CallViewModel.Companion.uiCallState
+import com.module.callmanager.ui.ContactViewModel
+import com.module.callmanager.util.CallAppConfig
+import com.module.callmanager.util.CallManagerConst.CALL_OUTGOING
+import com.module.callmanager.util.CallManagerConst.INTENT_KEY_CALL_STATE
 import com.ex.app.util.Permission
 
 class MainActivity : AppCompatActivity() {

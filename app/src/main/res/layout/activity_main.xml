@@ -10,15 +10,15 @@
 
         <variable
             name="callLogViewModel"
-            type="com.module.callex.ui.CallLogViewModel" />
+            type="com.module.callmanager.ui.CallLogViewModel" />
 
         <variable
             name="contactViewModel"
-            type="com.module.callex.ui.ContactViewModel" />
+            type="com.module.callmanager.ui.ContactViewModel" />
 
         <variable
             name="callViewModel"
-            type="com.module.callex.ui.CallViewModel" />
+            type="com.module.callmanager.ui.CallViewModel" />
 
         <variable
             name="simViewModel"
@@ -30,7 +30,7 @@
 
         <variable
             name="logType"
-            type="com.module.callex.model.log.LogType" />
+            type="com.module.callmanager.model.log.LogType" />
 
         <variable
             name="isActivatedUSIM"

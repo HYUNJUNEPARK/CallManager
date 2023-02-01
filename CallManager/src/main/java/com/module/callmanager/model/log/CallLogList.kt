@@ -1,3 +1,3 @@
-package com.module.callex.model.log
+package com.module.callmanager.model.log
 
 class CallLogList : ArrayList<CallLogItem>()

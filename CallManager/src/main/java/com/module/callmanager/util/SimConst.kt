@@ -1,4 +1,4 @@
-package com.module.callex.util
+package com.module.callmanager.util
 
 object SimConst {
     val simSlotName = arrayOf(
