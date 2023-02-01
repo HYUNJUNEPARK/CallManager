@@ -38,33 +38,37 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun getAllSimList() {
         try {
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
-                val simList = SimList()
-                val activeSubscriptionInfoList = subscriptionManager.activeSubscriptionInfoList
-
-                for (sim in activeSubscriptionInfoList.iterator()) {
-                    //eSIM 지원 모델
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        val simItem = SimItem(
-                            number = sim.number,
-                            isEmbedded = sim.isEmbedded,
-                            carrierName = sim.carrierName,
-                            simSlotIndex = sim.simSlotIndex
-                        )
-                        simList.add(simItem)
-                    } else {
-                    //eSIM 없는 모델
-                        val simItem = SimItem(
-                            number = sim.number,
-                            isEmbedded = false,
-                            carrierName = sim.carrierName,
-                            simSlotIndex = sim.simSlotIndex
-                        )
-                        simList.add(simItem)
-                    }
-                }
-                _allSIMList.value = simList
+            //권한이 없는 경우
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_DENIED) {
+                return
             }
+
+            //권한이 있는 경우
+            val simList = SimList()
+            val activeSubscriptionInfoList = subscriptionManager.activeSubscriptionInfoList
+
+            for (sim in activeSubscriptionInfoList.iterator()) {
+                //eSIM 지원 모델
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    val simItem = SimItem(
+                        number = sim.number,
+                        isEmbedded = sim.isEmbedded,
+                        carrierName = sim.carrierName,
+                        simSlotIndex = sim.simSlotIndex
+                    )
+                    simList.add(simItem)
+                } else {
+                    //eSIM 없는 모델
+                    val simItem = SimItem(
+                        number = sim.number,
+                        isEmbedded = false,
+                        carrierName = sim.carrierName,
+                        simSlotIndex = sim.simSlotIndex
+                    )
+                    simList.add(simItem)
+                }
+            }
+            _allSIMList.value = simList
             println("allSIMList(LiveData) : ${allSIMList.value}")
         } catch (e: SecurityException) {
             e.printStackTrace()
@@ -77,13 +81,21 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
 
     /**
      * 활성화된 SIM 리스트를 가져온다.
-     * eSIM 지원 디바이스에서 필요 시 사용한다.(API 28 이상부터 사용 권장)
+     * eSIM 지원 디바이스에서 필요 시 사용한다.(API 28 이상부터 사용)
      */
     fun getActivatedSimList() {
         try {
+            //TODO 동일한 if문 두개 ? 더 깔끔하게 표현할 수 있는 방법 생각해 볼 것
+            //심 리스트 캐시 데이터가 비어있는지 확인하고 비어있다면, 캐시 데이터 초기화
             if (allSIMList.value == null) {
                 getAllSimList()
             }
+
+            //권한 설정이나 디바이스에 심이 없는 경우 등 캐시 데이터가 초기화되지 않으며 동작 정지
+            if (allSIMList.value == null) {
+                return
+            }
+
             val activatedSimList = ActivatedSimList()
 
             for (sim in allSIMList.value!!.iterator()) {

@@ -21,6 +21,8 @@ import com.module.callmanager.util.SimConst.simSlotName
 
 class CallViewModel(application: Application): AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
+
+    //TODO makeCall() 내부로 넣는 것 생각해 볼 것
     private var telecomManager: TelecomManager = context.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
 
     companion object {
@@ -62,7 +64,6 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 .putExtra(INTENT_KEY_CALL_STATE, CALL_OUTGOING)
             context.startActivity(intent)
-
         } catch (e: SecurityException) {
             e.printStackTrace()
         } catch (e: IndexOutOfBoundsException) {
@@ -112,7 +113,7 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
     }
 
     /**
-     * 전화 응답한다.
+     * 전화를 받는다.
      */
     fun answerCall() {
         call!!.answer(VideoProfile.STATE_AUDIO_ONLY)
