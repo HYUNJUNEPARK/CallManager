@@ -9,7 +9,7 @@ import com.module.callmanager.model.contact.ContactList
 class ContactLocalDataSource(private val context: Context) {
     /**
      * 디바이스에 저장된 연락처를 가져온다.
-     * @return ArrayList<ContactItem?>
+     * @return ContactList : ArrayList<ContactItem?>
      */
     fun getContacts(): ContactList? {
         try {

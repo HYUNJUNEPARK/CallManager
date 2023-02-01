@@ -45,7 +45,7 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
     }
 
     /**
-     * 앱에 통화 권한이 있다면 디폴트 앱에 파라미터로 번호를 전달
+     * 콜을 발신한다.
      * @param phoneNumber 수신 전화 번호
      */
     fun makeCall(phoneNumber: String) {
@@ -90,9 +90,11 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             intent.putExtra("com.android.phone.force.slot", true)
             intent.putExtra("Cdma_Supp", true)
-            for (sim in simSlotName) {
-                intent.putExtra(sim, 0)
+
+            for (simSlot in simSlotName) {
+                intent.putExtra(simSlot, 0)
             }
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 intent.putExtra(
                     "android.telecom.extra.PHONE_ACCOUNT_HANDLE",
@@ -100,7 +102,6 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
                 )
             }
             context.startActivity(intent)
-
         } catch (e: SecurityException) {
             e.printStackTrace()
         } catch (e: IndexOutOfBoundsException) {
@@ -111,14 +112,14 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
     }
 
     /**
-     * 전화를 받는다.
+     * 콜을 수신한다.
      */
     fun answerCall() {
         call!!.answer(VideoProfile.STATE_AUDIO_ONLY)
     }
 
     /**
-     * 전화를 끊는다.
+     * 콜을 끊는다.
      */
     fun disconnectCall() {
         call!!.disconnect()

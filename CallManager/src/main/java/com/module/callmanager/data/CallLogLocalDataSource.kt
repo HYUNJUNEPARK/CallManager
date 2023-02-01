@@ -8,7 +8,7 @@ import com.module.callmanager.model.log.CallLogList
 class CallLogLocalDataSource(private val context: Context) {
     /**
      * 디바이스의 콜로그를 모두 가져온다.
-     * @return ArrayList<CallLogItem?>
+     * @return CallLogList : ArrayList<CallLogItem?>
      */
     fun getAllCallLog(): CallLogList? {
         try {

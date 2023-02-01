@@ -25,7 +25,7 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
     val allSIMList : LiveData<SimList>
         get() = _allSIMList
 
-    //eSIM 디바이스 모델용(API 28 이상부터 사용 권장)
+    //API 28 이상 eSIM 디바이스 모델용
     //eSIM을 지원하는 디바이스 모델의 경우 사용자가 USIM ON/OFF 를 설정할 수 있기 때문에 활성화된 USIM, eSIM 만 필터링할 필요가 있다.
     private var _activatedSIMList = MutableLiveData<ActivatedSimList>()
     val activatedSIMList : LiveData<ActivatedSimList>
@@ -64,7 +64,8 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
                     )
                     simList.add(simItem)
                 }
-            }
+            } //for
+
             _allSIMList.value = simList
             println("allSIMList(LiveData) : ${allSIMList.value}")
         } catch (e: SecurityException) {
@@ -88,16 +89,15 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
                 getAllSimList()
             }
 
-            //권한 설정이나 디바이스에 심이 없는 경우 등 캐시 데이터가 초기화되지 않으며 동작 정지
+            //권한 설정이나 디바이스에 심이 없는 경우 등의 이유로 캐시 데이터가 초기화되지 않았다면, 동작 정지
             if (allSIMList.value == null) {
                 return
             }
 
             val activatedSimList = ActivatedSimList()
 
+            //TODO CharSequence 와 String 을 비교 중 문제 없는지 확인할 것
             for (sim in allSIMList.value!!.iterator()) {
-                //TODO CharSequence 와 String 을 비교 중 문제 없는지 확인할 것
-                //TODO sim? nullable 처리가 불안함
                 if (sim?.carrierName != RESTRICTED_ZONE_SERVICE && sim?.carrierName != NOT_SERVICEABLE) {
                     val activatedSimItem = ActivatedSimItem(
                         number = sim?.number,
@@ -106,7 +106,7 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
                     )
                     activatedSimList.add(activatedSimItem)
                 }
-            }
+            } //for
 
             _activatedSIMList.value = activatedSimList
             println("activatedSimList(LiveData) : ${activatedSIMList.value}")
