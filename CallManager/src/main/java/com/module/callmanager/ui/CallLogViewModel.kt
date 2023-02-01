@@ -14,7 +14,7 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
     private val context = getApplication<Application>().applicationContext
     private val callLogLocalDataSource = CallLogLocalDataSource(context)
 
-    //모든 콜 로그 데이터
+    //콜 로그 데이터
     private var _callLogList = MutableLiveData<CallLogList>()
     val callLogList: LiveData<CallLogList>
         get() = _callLogList
@@ -35,8 +35,7 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
         get() = _missedCallLogList
 
     /**
-     * 다비이스 모든 콜로그를 초기화한다.
-     * 모듈 사용자는 CallLogViewModel 클래스 멤버 변수 callLogList 에서 데이터를 가져온다.
+     * 다비이스 내 콜로그를 캐시 callLogList 에 초기화한다.
      */
     fun getAllCallLog() {
         _callLogList.value = callLogLocalDataSource.getAllCallLog()
@@ -44,7 +43,7 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
     }
 
     /**
-     * 콜로그 중 원하는 타입의 기록만 가져온다.
+     * 콜로그 캐시 중 원하는 타입의 기록만 필터링해 캐시를 초기화한다.
      * 모듈 사용자는 CallLogViewModel 클래스 멤버 변수 incomingCallLogList / outgoingCallLogList / missedCallLogList 에서 필요한 데이터를 가져온다.
      * @param logType LogType.OUTGOING() / LogType.INCOMING() / LogType.MISSED() 기능만 구현되어 있음
      */
@@ -104,8 +103,8 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
     }
 
     /**
-     * 모든 콜 로그를 삭제한다.
-     * 디바이스 로그 데이터가 완전히 삭제되면, 콜 로그 관련 LiveData 모두 초기화
+     * 콜 로그 캐시 데이터를 삭제한다.
+     * 디바이스 내 로그 데이터가 완전히 삭제되면, 콜 로그 관련 캐시도 clear
      */
     fun deleteAllCallLog() {
         //콜로그 접근 권한이 없는 경우
@@ -125,9 +124,9 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
     }
 
     /**
-     * 특정 콜 로그를 삭제한다.
+     * 디바이스 내 특정 콜 로그를 삭제한다.
      * 리사이클러 뷰에서 콜로그 기록을 선택적으로 삭제하는 경우 사용하려고 만든 메서드
-     * 디바이스 로그 데이터가 완전히 삭제되면, getAllCallLog()가 호출되어 캐시 데이터 초기화
+     * 디바이스 로그 데이터가 완전히 삭제되면, getAllCallLog()가 호출되어 캐시 초기화
      * @param logIdList 지우려하는 콜로그 ID 리스트
      */
     fun deleteCallLog(logIdList: ArrayList<String>) {
@@ -137,9 +136,9 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
         }
 
         //콜로그 접근 권한이 있는 경우
-        callLogLocalDataSource.deleteCallLog(logIdList).let { result ->
+        callLogLocalDataSource.deleteCallLog(logIdList).let { result -> //1. 디바이스 내 로그 데이터를 정상적으로 지웠다면,
             if (result) {
-                getAllCallLog()
+                getAllCallLog() //2. 캐시를 초기화
             }
         }
     }
