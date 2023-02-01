@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.module.callex'
+    namespace 'com.ex.app'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.module.callex"
+        applicationId "com.ex.app"
         minSdk 26
         targetSdk 32
         versionCode 1

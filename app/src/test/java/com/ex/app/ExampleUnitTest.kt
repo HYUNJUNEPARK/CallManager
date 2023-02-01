@@ -1,4 +1,4 @@
-package com.module.callex
+package com.ex.app
 
 import org.junit.Test
 

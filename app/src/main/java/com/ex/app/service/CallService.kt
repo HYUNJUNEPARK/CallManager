@@ -1,10 +1,10 @@
-package com.module.callex.service
+package com.ex.app.service
 
 import android.content.Intent
 import android.os.Build
 import android.telecom.Call
 import android.telecom.InCallService
-import com.module.callex.ui.CallActivity
+import com.ex.app.ui.CallActivity
 import com.module.callex.ui.CallViewModel
 import com.module.callex.util.CallManagerConst.CALL_INCOMING
 import com.module.callex.util.CallManagerConst.INTENT_KEY_CALL_STATE

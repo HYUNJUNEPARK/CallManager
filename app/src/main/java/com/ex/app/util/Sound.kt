@@ -1,4 +1,4 @@
-package com.module.callex.util
+package com.ex.app.util
 
 import android.content.Context
 import android.os.Build

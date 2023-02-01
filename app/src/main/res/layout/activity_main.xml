@@ -6,7 +6,7 @@
     <data>
         <variable
             name="main"
-            type="com.module.callex.ui.MainActivity" />
+            type="com.ex.app.ui.MainActivity" />
 
         <variable
             name="callLogViewModel"
@@ -53,7 +53,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.MainActivity">
+        tools:context="com.ex.app.ui.MainActivity">
 
         <ScrollView
             android:layout_width="match_parent"

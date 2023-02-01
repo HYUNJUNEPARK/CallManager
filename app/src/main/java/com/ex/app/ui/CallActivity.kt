@@ -1,4 +1,4 @@
-package com.module.callex.ui
+package com.ex.app.ui
 
 import android.os.Build
 import android.os.Bundle
@@ -7,8 +7,9 @@ import android.telecom.Call
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.module.callex.R
-import com.module.callex.databinding.ActivityCallBinding
+import com.ex.app.R
+import com.ex.app.databinding.ActivityCallBinding
+import com.module.callex.ui.CallViewModel
 import com.module.callex.ui.CallViewModel.Companion.uiCallState
 import com.module.callex.util.CallManagerConst.CALL_OUTGOING
 import com.module.callex.util.CallManagerConst.INTENT_KEY_CALL_STATE
