@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         binding.main = this
         binding.logType = LogType.OUTGOING //테스트 파라미터
 
-        updateUI()
+        updateSimButtonUI()
         permission.checkPermissions()
         callStateObserver()
     }
@@ -87,9 +87,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateUI() {
+    private fun updateSimButtonUI() {
         simViewModel.getActivatedSimList()
-        val simList = simViewModel.activatedSIMList.value
+        val simList = simViewModel.activatedSIMList.value ?: return
 
         val simTypeSet = mutableSetOf<Boolean?>()
         for (simItem in simList!!.iterator()) {

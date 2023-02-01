@@ -21,7 +21,6 @@ import com.module.callmanager.util.SimConst.simSlotName
 
 class CallViewModel(application: Application): AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
-    private var telecomManager: TelecomManager = context.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
 
     companion object {
         var callState = MutableLiveData<Int>()
@@ -62,7 +61,6 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 .putExtra(INTENT_KEY_CALL_STATE, CALL_OUTGOING)
             context.startActivity(intent)
-
         } catch (e: SecurityException) {
             e.printStackTrace()
         } catch (e: IndexOutOfBoundsException) {
@@ -86,6 +84,7 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
             }
 
             //통화 권한이 있는 경우
+            val telecomManager: TelecomManager = context.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
             val phoneAccountHandleList: List<PhoneAccountHandle> =  telecomManager.callCapablePhoneAccounts //TODO 권한 관련해 에러가 있었음
             val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$phoneNumber"))
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -112,7 +111,7 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
     }
 
     /**
-     * 전화 응답한다.
+     * 전화를 받는다.
      */
     fun answerCall() {
         call!!.answer(VideoProfile.STATE_AUDIO_ONLY)
