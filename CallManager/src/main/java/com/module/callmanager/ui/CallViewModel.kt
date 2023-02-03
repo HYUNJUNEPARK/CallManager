@@ -103,7 +103,7 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 intent.putExtra(
                     "android.telecom.extra.PHONE_ACCOUNT_HANDLE",
-                    phoneAccountHandleList[4]
+                    phoneAccountHandleList[simSlotIdx]
                 )
             }
             context.startActivity(intent)
