@@ -16,6 +16,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.module.callmanager.R
 import com.module.callmanager.util.CallManagerConst.CALL_OUTGOING
 import com.module.callmanager.util.CallManagerConst.INTENT_KEY_CALL_STATE
 import com.module.callmanager.util.LogUtil
@@ -54,7 +55,7 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
         try {
             //통화 권한이 없는 경우
             if (PermissionChecker.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PermissionChecker.PERMISSION_DENIED) {
-                LogUtil.logE("Manifest.permission.CALL_PHONE : PERMISSION_DENIED")
+                LogUtil.logE(context.getString(R.string.permission_denied_call_phone))
                 return
             }
 
@@ -83,7 +84,7 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
         try {
             //통화 권한이 없는 경우
             if(PermissionChecker.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PermissionChecker.PERMISSION_DENIED) {
-                LogUtil.logE("Manifest.permission.CALL_PHONE : PERMISSION_DENIED")
+                LogUtil.logE(context.getString(R.string.permission_denied_call_phone))
                 return
             }
 

@@ -6,6 +6,7 @@ import androidx.core.content.PermissionChecker
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.module.callmanager.R
 import com.module.callmanager.data.CallLogLocalDataSource
 import com.module.callmanager.model.log.CallLogList
 import com.module.callmanager.model.log.LogType
@@ -73,19 +74,19 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
         //수신 로그
         if (callLogType == LogType.INCOMING.type) {
             _incomingCallLogList.value = sortedCallLogList
-            LogUtil.logD("incoming: ${incomingCallLogList.value}")
+            LogUtil.logD("incoming log: ${incomingCallLogList.value}")
         }
 
         //발신 로그
         if (callLogType == LogType.OUTGOING.type) {
             _outgoingCallLogList.value = sortedCallLogList
-            LogUtil.logD("outgoing: ${outgoingCallLogList.value}")
+            LogUtil.logD("outgoing log: ${outgoingCallLogList.value}")
         }
 
         //부재중 로그
         if (callLogType == LogType.MISSED.type) {
             _missedCallLogList.value = sortedCallLogList
-            LogUtil.logD("missed: ${missedCallLogList.value}")
+            LogUtil.logD("missed log: ${missedCallLogList.value}")
         }
 
         if (callLogType == LogType.VOICEMAIL.type) {
@@ -112,7 +113,7 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
     fun deleteAllCallLog() {
         //콜로그 접근 권한이 없는 경우
         if (PermissionChecker.checkSelfPermission(context, Manifest.permission.WRITE_CALL_LOG) == PermissionChecker.PERMISSION_DENIED) {
-            LogUtil.logE("Manifest.permission.WRITE_CALL_LOG : PERMISSION_DENIED")
+            LogUtil.logE(context.getString(R.string.permission_denied_write_call_log))
             return
         }
 
@@ -136,7 +137,7 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
     fun deleteCallLog(logIdList: ArrayList<String>) {
         //콜로그 접근 권한이 없는 경우
         if (PermissionChecker.checkSelfPermission(context, Manifest.permission.WRITE_CALL_LOG) == PermissionChecker.PERMISSION_DENIED) {
-            LogUtil.logE("Manifest.permission.WRITE_CALL_LOG : PERMISSION_DENIED")
+            LogUtil.logE(context.getString(R.string.permission_denied_write_call_log))
             return
         }
 
