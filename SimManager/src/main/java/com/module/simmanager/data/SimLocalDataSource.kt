@@ -1,6 +1,7 @@
 package com.module.simmanager.data
 
 import com.module.simmanager.model.SimItem
+import com.module.simmanager.util.LogUtil
 
 class SimLocalDataSource {
 
@@ -12,7 +13,7 @@ class SimLocalDataSource {
         try {
 
         } catch (e: Exception) {
-
+            LogUtil.printStackTrace(e)
         }
         return null
     }

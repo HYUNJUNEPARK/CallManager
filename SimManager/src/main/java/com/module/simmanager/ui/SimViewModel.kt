@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.telephony.SubscriptionManager
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -14,6 +15,7 @@ import com.module.simmanager.model.ActivatedSimItem
 import com.module.simmanager.model.ActivatedSimList
 import com.module.simmanager.model.SimItem
 import com.module.simmanager.model.SimList
+import com.module.simmanager.util.LogUtil
 import com.module.simmanager.util.SimManagerConst.NOT_SERVICEABLE
 import com.module.simmanager.util.SimManagerConst.RESTRICTED_ZONE_SERVICE
 
@@ -38,6 +40,7 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
         try {
             //권한이 없는 경우
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_DENIED) {
+                LogUtil.logE("Manifest.permission.READ_PHONE_STATE : PERMISSION_DENIED")
                 return
             }
 
@@ -69,11 +72,11 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
             _allSIMList.value = simList
             println("allSIMList(LiveData) : ${allSIMList.value}")
         } catch (e: SecurityException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: NullPointerException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: Exception) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         }
     }
 
@@ -91,12 +94,13 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
 
             //권한 설정이나 디바이스에 심이 없는 경우 등의 이유로 캐시 데이터가 초기화되지 않았다면, 동작 정지
             if (allSIMList.value == null) {
+                LogUtil.logD("There is not activated Sim. Please check application permission or sim state")
                 return
             }
 
             val activatedSimList = ActivatedSimList()
 
-            //TODO CharSequence 와 String 을 비교 중 문제 없는지 확인할 것
+            //TODO CharSequence 와 String 을 비교 중 문제 없는지 확인
             for (sim in allSIMList.value!!.iterator()) {
                 if (sim?.carrierName != RESTRICTED_ZONE_SERVICE && sim?.carrierName != NOT_SERVICEABLE) {
                     val activatedSimItem = ActivatedSimItem(
@@ -111,11 +115,11 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
             _activatedSIMList.value = activatedSimList
             println("activatedSimList(LiveData) : ${activatedSIMList.value}")
         } catch (e: SecurityException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: NullPointerException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: Exception) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         }
     }
 }
