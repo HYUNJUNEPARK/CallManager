@@ -6,9 +6,11 @@ import androidx.core.content.PermissionChecker
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.module.callmanager.R
 import com.module.callmanager.data.CallLogLocalDataSource
 import com.module.callmanager.model.log.CallLogList
 import com.module.callmanager.model.log.LogType
+import com.module.callmanager.util.LogUtil
 
 class CallLogViewModel(application: Application) : AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
@@ -38,8 +40,8 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
      * 다비이스 내 콜로그를 캐시 callLogList 에 초기화한다.
      */
     fun getAllCallLog() {
-        _callLogList.value = callLogLocalDataSource.getAllCallLog()
-        println("getAllCallLog() callLogList(LiveData) : ${callLogList.value}")
+        _callLogList.value = callLogLocalDataSource.getAllCallLog() ?: return
+        LogUtil.logD("callLogList(LiveData) : ${callLogList.value}")
     }
 
     /**
@@ -50,54 +52,57 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
     fun getCallLog(logType: LogType) {
         //콜로그 접근 권한이 없는 경우
         if (PermissionChecker.checkSelfPermission(context, Manifest.permission.READ_CALL_LOG) == PermissionChecker.PERMISSION_DENIED) {
+            LogUtil.logE(context.getString(R.string.permission_denied_call_log))
+            
             return
         }
 
         //콜로그 접근 권한이 있는 경우
+        //콜로그 관련 캐시데이터가 없다면 캐시 데이터 초기화
         if(callLogList.value == null) {
             getAllCallLog()
         }
-        val type = logType.type
+        val callLogType = logType.type
         val sortedCallLogList = CallLogList()
 
+        //콜 기록 캐시 데이터(callLogList)에서 원하는 타입의 콜로그만 필터링
         for(callLog in callLogList.value!!) {
-            if (callLog?.type == type) {
-                println("callLogType: $callLog")
+            if (callLog?.type == callLogType) {
                 sortedCallLogList.add(callLog)
             }
         }
 
         //수신 로그
-        if (type == LogType.INCOMING.type) {
+        if (callLogType == LogType.INCOMING.type) {
             _incomingCallLogList.value = sortedCallLogList
-            println("incoming: ${incomingCallLogList.value}")
+            LogUtil.logD("incoming log: ${incomingCallLogList.value}")
         }
 
         //발신 로그
-        if (type == LogType.OUTGOING.type) {
+        if (callLogType == LogType.OUTGOING.type) {
             _outgoingCallLogList.value = sortedCallLogList
-            println("outgoing: ${outgoingCallLogList.value}")
+            LogUtil.logD("outgoing log: ${outgoingCallLogList.value}")
         }
 
         //부재중 로그
-        if (type == LogType.MISSED.type) {
+        if (callLogType == LogType.MISSED.type) {
             _missedCallLogList.value = sortedCallLogList
-            println("missed: ${missedCallLogList.value}")
+            LogUtil.logD("missed log: ${missedCallLogList.value}")
         }
 
-        if (type == LogType.VOICEMAIL.type) {
-
-        }
-
-        if (type == LogType.REJECTED.type) {
+        if (callLogType == LogType.VOICEMAIL.type) {
 
         }
 
-        if (type == LogType.BLOCKED.type) {
+        if (callLogType == LogType.REJECTED.type) {
 
         }
 
-        if (type == LogType.ANSWERED_EXTERNALLY_TYPE.type) {
+        if (callLogType == LogType.BLOCKED.type) {
+
+        }
+
+        if (callLogType == LogType.ANSWERED_EXTERNALLY_TYPE.type) {
 
         }
     }
@@ -109,6 +114,7 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
     fun deleteAllCallLog() {
         //콜로그 접근 권한이 없는 경우
         if (PermissionChecker.checkSelfPermission(context, Manifest.permission.WRITE_CALL_LOG) == PermissionChecker.PERMISSION_DENIED) {
+            LogUtil.logE(context.getString(R.string.permission_denied_write_call_log))
             return
         }
 
@@ -132,6 +138,7 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
     fun deleteCallLog(logIdList: ArrayList<String>) {
         //콜로그 접근 권한이 없는 경우
         if (PermissionChecker.checkSelfPermission(context, Manifest.permission.WRITE_CALL_LOG) == PermissionChecker.PERMISSION_DENIED) {
+            LogUtil.logE(context.getString(R.string.permission_denied_write_call_log))
             return
         }
 

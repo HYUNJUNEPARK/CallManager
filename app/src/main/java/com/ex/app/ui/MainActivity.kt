@@ -48,11 +48,7 @@ class MainActivity : AppCompatActivity() {
         callStateObserver()
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray,
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.all { it ==  PackageManager.PERMISSION_GRANTED}) {
             permission.permissionGranted()

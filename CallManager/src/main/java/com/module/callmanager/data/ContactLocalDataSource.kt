@@ -5,6 +5,7 @@ import android.net.Uri
 import android.provider.ContactsContract
 import com.module.callmanager.model.contact.ContactItem
 import com.module.callmanager.model.contact.ContactList
+import com.module.callmanager.util.LogUtil
 
 class ContactLocalDataSource(private val context: Context) {
     /**
@@ -32,11 +33,11 @@ class ContactLocalDataSource(private val context: Context) {
 
             return contactList
         } catch (e: NullPointerException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: SecurityException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: Exception) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         }
         return null
     }
@@ -48,11 +49,11 @@ class ContactLocalDataSource(private val context: Context) {
         try {
 
         } catch (e: NullPointerException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: SecurityException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: Exception) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         }
     }
 
@@ -63,11 +64,11 @@ class ContactLocalDataSource(private val context: Context) {
         try {
 
         } catch (e: NullPointerException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: SecurityException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: Exception) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         }
     }
 }

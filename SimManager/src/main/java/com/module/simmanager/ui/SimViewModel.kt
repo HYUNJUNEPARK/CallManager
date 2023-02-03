@@ -6,19 +6,24 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.telephony.SubscriptionManager
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.module.simmanager.R
+import com.module.simmanager.data.SimLocalDataSource
 import com.module.simmanager.model.ActivatedSimItem
 import com.module.simmanager.model.ActivatedSimList
 import com.module.simmanager.model.SimItem
 import com.module.simmanager.model.SimList
+import com.module.simmanager.util.LogUtil
 import com.module.simmanager.util.SimManagerConst.NOT_SERVICEABLE
 import com.module.simmanager.util.SimManagerConst.RESTRICTED_ZONE_SERVICE
 
 class SimViewModel(application: Application) : AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
+    private val simLocalDataSource = SimLocalDataSource(context)
 
     //디바이스 모든 USIM, eSIM 리스트(eSIM 의 경우 사용자 설정에 따라서 데이터가 없을 수 있음)
     private var _allSIMList = MutableLiveData<SimList>()
@@ -35,46 +40,15 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
      * 디바이스 모든 USIM, eSIM 리스트를 가져와 allSIMList 캐시 데이터를 초기화한다.
      */
     fun getAllSimList() {
-        try {
-            //권한이 없는 경우
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_DENIED) {
-                return
-            }
-
-            //권한이 있는 경우
-            val simList = SimList()
-            val subscriptionManager = context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
-            val activeSubscriptionInfoList = subscriptionManager.activeSubscriptionInfoList
-
-            for (sim in activeSubscriptionInfoList.iterator()) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) { //eSIM 지원 모델
-                    val simItem = SimItem(
-                        number = sim.number,
-                        isEmbedded = sim.isEmbedded,
-                        carrierName = sim.carrierName,
-                        simSlotIndex = sim.simSlotIndex
-                    )
-                    simList.add(simItem)
-                } else { //eSIM 없는 모델
-                    val simItem = SimItem(
-                        number = sim.number,
-                        isEmbedded = false,
-                        carrierName = sim.carrierName,
-                        simSlotIndex = sim.simSlotIndex
-                    )
-                    simList.add(simItem)
-                }
-            } //for
-
-            _allSIMList.value = simList
-            println("allSIMList(LiveData) : ${allSIMList.value}")
-        } catch (e: SecurityException) {
-            e.printStackTrace()
-        } catch (e: NullPointerException) {
-            e.printStackTrace()
-        } catch (e: Exception) {
-            e.printStackTrace()
+        //권한이 없는 경우
+        if (ContextCompat.checkSelfPermission(context,Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_DENIED) {
+            LogUtil.logE(context.getString(R.string.permission_denied_read_phone_state))
+            return
         }
+
+        //권한 있는 경우
+        _allSIMList.value = simLocalDataSource.getAllSimList() ?: return
+        LogUtil.logD("allSIMList(LiveData) : ${allSIMList.value}")
     }
 
     /**
@@ -83,7 +57,7 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun getActivatedSimList() {
         try {
-            //TODO 동일한 if문 두개 ? 더 깔끔하게 표현할 수 있는 방법 생각해 볼 것
+            //TODO 동일한 if문 두개 : 더 깔끔하게 표현할 수 있는 방법 생각해 볼 것
             //심 리스트 캐시 데이터가 비어있는지 확인하고 비어있다면, 캐시 데이터 초기화
             if (allSIMList.value == null) {
                 getAllSimList()
@@ -91,12 +65,12 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
 
             //권한 설정이나 디바이스에 심이 없는 경우 등의 이유로 캐시 데이터가 초기화되지 않았다면, 동작 정지
             if (allSIMList.value == null) {
+                LogUtil.logE(context.getString(R.string.does_not_init_allSIMList_cache))
                 return
             }
 
             val activatedSimList = ActivatedSimList()
-
-            //TODO CharSequence 와 String 을 비교 중 문제 없는지 확인할 것
+            //TODO carrierName 에 RESTRICTED_ZONE_SERVICE, NOT_SERVICEABLE 외 더 많은 상황이 있을 수 있음
             for (sim in allSIMList.value!!.iterator()) {
                 if (sim?.carrierName != RESTRICTED_ZONE_SERVICE && sim?.carrierName != NOT_SERVICEABLE) {
                     val activatedSimItem = ActivatedSimItem(
@@ -109,13 +83,13 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
             } //for
 
             _activatedSIMList.value = activatedSimList
-            println("activatedSimList(LiveData) : ${activatedSIMList.value}")
+            LogUtil.logD("activatedSimList(LiveData) : ${activatedSIMList.value}")
         } catch (e: SecurityException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: NullPointerException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: Exception) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         }
     }
 }

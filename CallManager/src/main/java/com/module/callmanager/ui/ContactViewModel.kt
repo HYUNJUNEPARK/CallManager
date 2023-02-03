@@ -6,8 +6,10 @@ import androidx.core.content.PermissionChecker
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.module.callmanager.R
 import com.module.callmanager.data.ContactLocalDataSource
 import com.module.callmanager.model.contact.ContactList
+import com.module.callmanager.util.LogUtil
 
 class ContactViewModel(application: Application) : AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
@@ -24,11 +26,12 @@ class ContactViewModel(application: Application) : AndroidViewModel(application)
     fun getContacts() {
         //연락처 접근 권한이 없는 경우
         if(PermissionChecker.checkSelfPermission(context, Manifest.permission.READ_CONTACTS) == PermissionChecker.PERMISSION_DENIED) {
+            LogUtil.logE(context.getString(R.string.permission_denied_read_contacts))
             return
         }
 
         //연락처 접근 권한이 있는 경우
         _contactList.value = contactLocalDataSource.getContacts()
-        println("getContacts() contactList(LiveData) : ${contactList.value}")
+        LogUtil.logD("contactList(LiveData) : ${contactList.value}")
     }
 }

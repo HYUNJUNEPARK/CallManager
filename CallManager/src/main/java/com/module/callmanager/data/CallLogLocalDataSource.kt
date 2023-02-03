@@ -4,6 +4,7 @@ import android.content.Context
 import android.provider.CallLog
 import com.module.callmanager.model.log.CallLogItem
 import com.module.callmanager.model.log.CallLogList
+import com.module.callmanager.util.LogUtil
 
 class CallLogLocalDataSource(private val context: Context) {
     /**
@@ -41,11 +42,11 @@ class CallLogLocalDataSource(private val context: Context) {
 
             return callLogList
         } catch (e: NullPointerException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: SecurityException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: Exception) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         }
         return null
     }
@@ -68,15 +69,15 @@ class CallLogLocalDataSource(private val context: Context) {
             }
             return true
         } catch (e: NumberFormatException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: IndexOutOfBoundsException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: NullPointerException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: SecurityException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: Exception) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         }
         return false
     }
@@ -94,11 +95,11 @@ class CallLogLocalDataSource(private val context: Context) {
             )
             return true
         } catch (e: NullPointerException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: SecurityException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: Exception) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         }
         return false
     }
