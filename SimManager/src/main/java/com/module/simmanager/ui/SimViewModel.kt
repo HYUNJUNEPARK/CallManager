@@ -47,7 +47,7 @@ class SimViewModel(application: Application) : AndroidViewModel(application) {
         }
 
         //권한 있는 경우
-        _allSIMList.value = simLocalDataSource.getAllSimList()
+        _allSIMList.value = simLocalDataSource.getAllSimList() ?: return
         LogUtil.logD("allSIMList(LiveData) : ${allSIMList.value}")
     }
 

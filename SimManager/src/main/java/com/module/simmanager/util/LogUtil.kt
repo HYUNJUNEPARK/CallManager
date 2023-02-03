@@ -18,9 +18,9 @@ object LogUtil {
         }
     }
 
-    fun printStackTrace(exception: Exception) {
+    fun printStackTrace(e: Exception) {
         if(BuildConfig.DEBUG) {
-            exception.printStackTrace()
+            e.printStackTrace()
         }
     }
 }

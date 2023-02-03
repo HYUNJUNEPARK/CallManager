@@ -40,7 +40,7 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
      * 다비이스 내 콜로그를 캐시 callLogList 에 초기화한다.
      */
     fun getAllCallLog() {
-        _callLogList.value = callLogLocalDataSource.getAllCallLog()
+        _callLogList.value = callLogLocalDataSource.getAllCallLog() ?: return
         LogUtil.logD("callLogList(LiveData) : ${callLogList.value}")
     }
 
@@ -52,7 +52,8 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
     fun getCallLog(logType: LogType) {
         //콜로그 접근 권한이 없는 경우
         if (PermissionChecker.checkSelfPermission(context, Manifest.permission.READ_CALL_LOG) == PermissionChecker.PERMISSION_DENIED) {
-            LogUtil.logE("Manifest.permission.READ_CALL_LOG : PERMISSION_DENIED")
+            LogUtil.logE(context.getString(R.string.permission_denied_call_log))
+            
             return
         }
 

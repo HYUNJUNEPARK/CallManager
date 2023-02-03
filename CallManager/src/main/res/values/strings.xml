@@ -4,4 +4,5 @@
     <string name="permission_denied_read_contacts">Manifest.permission.READ_CONTACTS : PERMISSION_DENIED</string>
     <string name="permission_denied_call_phone">Manifest.permission.CALL_PHONE : PERMISSION_DENIED</string>
     <string name="permission_denied_write_call_log">Manifest.permission.WRITE_CALL_LOG : PERMISSION_DENIED</string>
+    <string name="permission_denied_call_log">Manifest.permission.READ_CALL_LOG : PERMISSION_DENIED</string>
 </resources>
