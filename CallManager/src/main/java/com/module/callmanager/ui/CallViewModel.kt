@@ -10,7 +10,6 @@ import android.telecom.Call
 import android.telecom.PhoneAccountHandle
 import android.telecom.TelecomManager
 import android.telecom.VideoProfile
-import android.util.Log
 import androidx.core.content.PermissionChecker
 import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel

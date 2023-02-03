@@ -2,11 +2,7 @@ package com.module.simmanager.ui
 
 import android.Manifest
 import android.app.Application
-import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Build
-import android.telephony.SubscriptionManager
-import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -15,7 +11,6 @@ import com.module.simmanager.R
 import com.module.simmanager.data.SimLocalDataSource
 import com.module.simmanager.model.ActivatedSimItem
 import com.module.simmanager.model.ActivatedSimList
-import com.module.simmanager.model.SimItem
 import com.module.simmanager.model.SimList
 import com.module.simmanager.util.LogUtil
 import com.module.simmanager.util.SimManagerConst.NOT_SERVICEABLE

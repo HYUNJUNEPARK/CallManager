@@ -1,12 +1,8 @@
 package com.module.simmanager.data
 
-import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Build
 import android.telephony.SubscriptionManager
-import androidx.core.content.ContextCompat
-import com.module.simmanager.R
 import com.module.simmanager.model.SimItem
 import com.module.simmanager.model.SimList
 import com.module.simmanager.util.LogUtil
@@ -19,7 +15,6 @@ class SimLocalDataSource(private val context: Context) {
      */
     fun getAllSimList(): SimList? {
         try {
-            //권한이 있는 경우
             val simList = SimList()
             val subscriptionManager = context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
             val activeSubscriptionInfoList = subscriptionManager.activeSubscriptionInfoList
