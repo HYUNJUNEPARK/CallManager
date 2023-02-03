@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import com.module.callmanager.data.CallLogLocalDataSource
 import com.module.callmanager.model.log.CallLogList
 import com.module.callmanager.model.log.LogType
+import com.module.callmanager.util.LogUtil
 
 class CallLogViewModel(application: Application) : AndroidViewModel(application) {
     private val context = getApplication<Application>().applicationContext
@@ -39,7 +40,7 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
      */
     fun getAllCallLog() {
         _callLogList.value = callLogLocalDataSource.getAllCallLog()
-        println("getAllCallLog() callLogList(LiveData) : ${callLogList.value}")
+        LogUtil.logD("callLogList(LiveData) : ${callLogList.value}")
     }
 
     /**
@@ -50,6 +51,7 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
     fun getCallLog(logType: LogType) {
         //콜로그 접근 권한이 없는 경우
         if (PermissionChecker.checkSelfPermission(context, Manifest.permission.READ_CALL_LOG) == PermissionChecker.PERMISSION_DENIED) {
+            LogUtil.logE("Manifest.permission.READ_CALL_LOG : PERMISSION_DENIED")
             return
         }
 
@@ -109,6 +111,7 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
     fun deleteAllCallLog() {
         //콜로그 접근 권한이 없는 경우
         if (PermissionChecker.checkSelfPermission(context, Manifest.permission.WRITE_CALL_LOG) == PermissionChecker.PERMISSION_DENIED) {
+            LogUtil.logE("Manifest.permission.WRITE_CALL_LOG : PERMISSION_DENIED")
             return
         }
 
@@ -132,6 +135,7 @@ class CallLogViewModel(application: Application) : AndroidViewModel(application)
     fun deleteCallLog(logIdList: ArrayList<String>) {
         //콜로그 접근 권한이 없는 경우
         if (PermissionChecker.checkSelfPermission(context, Manifest.permission.WRITE_CALL_LOG) == PermissionChecker.PERMISSION_DENIED) {
+            LogUtil.logE("Manifest.permission.WRITE_CALL_LOG : PERMISSION_DENIED")
             return
         }
 

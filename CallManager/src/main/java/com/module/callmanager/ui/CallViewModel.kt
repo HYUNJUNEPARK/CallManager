@@ -10,6 +10,7 @@ import android.telecom.Call
 import android.telecom.PhoneAccountHandle
 import android.telecom.TelecomManager
 import android.telecom.VideoProfile
+import android.util.Log
 import androidx.core.content.PermissionChecker
 import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
@@ -17,6 +18,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.module.callmanager.util.CallManagerConst.CALL_OUTGOING
 import com.module.callmanager.util.CallManagerConst.INTENT_KEY_CALL_STATE
+import com.module.callmanager.util.LogUtil
 import com.module.callmanager.util.SimConst.simSlotName
 
 class CallViewModel(application: Application): AndroidViewModel(application) {
@@ -52,6 +54,7 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
         try {
             //통화 권한이 없는 경우
             if (PermissionChecker.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PermissionChecker.PERMISSION_DENIED) {
+                LogUtil.logE("Manifest.permission.CALL_PHONE : PERMISSION_DENIED")
                 return
             }
 
@@ -62,11 +65,11 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
                 .putExtra(INTENT_KEY_CALL_STATE, CALL_OUTGOING)
             context.startActivity(intent)
         } catch (e: SecurityException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: IndexOutOfBoundsException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: Exception) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         }
     }
 
@@ -80,6 +83,7 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
         try {
             //통화 권한이 없는 경우
             if(PermissionChecker.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PermissionChecker.PERMISSION_DENIED) {
+                LogUtil.logE("Manifest.permission.CALL_PHONE : PERMISSION_DENIED")
                 return
             }
 
@@ -98,16 +102,16 @@ class CallViewModel(application: Application): AndroidViewModel(application) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 intent.putExtra(
                     "android.telecom.extra.PHONE_ACCOUNT_HANDLE",
-                    phoneAccountHandleList[simSlotIdx]
+                    phoneAccountHandleList[4]
                 )
             }
             context.startActivity(intent)
         } catch (e: SecurityException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: IndexOutOfBoundsException) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         } catch (e: Exception) {
-            e.printStackTrace()
+            LogUtil.printStackTrace(e)
         }
     }
 
