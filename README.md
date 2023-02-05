@@ -13,10 +13,14 @@ https://gooners0304.tistory.com/entry/%ED%98%84%EC%9E%AC-%EB%8B%A8%EB%A7%90%EA%B
 USIM 관리 클래스 총정리(유심 체크, 번호 가져오기, 번호 포맷 통일)</br>
 https://gooners0304.tistory.com/entry/USIM-%EA%B4%80%EB%A6%AC-%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%B4%9D%EC%A0%95%EB%A6%AC%EC%9C%A0%EC%8B%AC-%EC%B2%B4%ED%81%AC-%EB%B2%88%ED%98%B8-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0-%EB%B2%88%ED%98%B8-%ED%8F%AC%EB%A7%B7-%ED%86%B5%EC%9D%BC</br>
 
+(안드로이드) 듀얼심일 경우 처리</br>
 https://it-highjune.tistory.com/18</br>
 
+Telephony ID 종류들 (dual SIM, eSIM 단말에서의 구분)</br>
 https://tourspace.tistory.com/450</br>
 
+Make call using a specified SIM in a Dual SIM Device</br>
 https://stackoverflow.com/questions/25524476/make-call-using-a-specified-sim-in-a-dual-sim-device</br>
 
+Call from second sim</br>
 https://stackoverflow.com/questions/13231962/call-from-second-sim</br>
